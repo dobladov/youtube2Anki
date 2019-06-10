@@ -20,7 +20,7 @@
     {
       "matches": ["*://*.youtube.com/watch?*"],
       "css": ["style.css"],
-      "js": ["borderify.js"]
+      "js": ["youtube2Anki.js"]
     }
   ]
 }

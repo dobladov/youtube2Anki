@@ -1,5 +1,4 @@
 console.log("Script loaded")
-var transcript = document.getElementById("transcript")
 
 const toSeconds = (ms) => {
   if (ms) {
@@ -90,5 +89,9 @@ const addButton = () => {
   } 
 }
 
-const observer = new MutationObserver(addButton)
-observer.observe(transcript, { childList: true })
+var transcript = document.getElementById("transcript")
+
+if (transcript) {
+  const observer = new MutationObserver(addButton)
+  observer.observe(transcript, { childList: true })
+}
