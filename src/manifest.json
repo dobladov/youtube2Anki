@@ -6,6 +6,9 @@
 
   "description": "__MSG_extensionDescription__",
 
+  "author": "Daniel Doblado",
+  "homepage_url": "https://github.com/dobladov/youtube2Anki",
+  
   "icons": {
     "16": "icons/icon16.png",
     "24": "icons/icon24.png",
