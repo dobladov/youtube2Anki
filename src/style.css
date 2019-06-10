@@ -1,0 +1,12 @@
+#toAnkiBtn {
+    line-height: 1;
+    padding: var(--yt-button-icon-padding, 8px);
+    width: var(--yt-button-icon-size, var(--yt-icon-width, 40px));
+    height: var(--yt-button-icon-size, var(--yt-icon-height, 40px));
+    color: var(--yt-spec-icon-inactive);
+    font-size: var(--iron-icon_-_width, var(--iron-icon-width, 24px));
+}
+
+#toAnkiBtn:hover {
+    color: var(--yt-spec-icon-active-other);
+}

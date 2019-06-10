@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "version": "0.0.1",
+  "default_locale": "en",
+
+  "description": "__MSG_extensionDescription__",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "24": "icons/icon24.png",
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/watch?*"],
+      "css": ["style.css"],
+      "js": ["borderify.js"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "extensionName": {
+    "message": "Youtube2Anki",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Convert Youtube Transcripts to Anki cards",
+    "description": "Description of the extension."
+  },
+  
+  "exportTitle": {
+    "message": "Export to Anki CSV",
+    "description": "Title while hovering the export icon"
+  }
+}
