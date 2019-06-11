@@ -15,8 +15,7 @@ This extension adds a star button to the transcript allowing to download the sen
 Install the extension for your prefered browser
 
 + [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
-+ ~~[Chrome]()~~ Soon
-
++ [Chrome](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
 
 In Anki, create a new note. Tools -> Manage Note Types
 
