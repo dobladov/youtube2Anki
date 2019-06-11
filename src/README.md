@@ -17,7 +17,6 @@ Install the extension for your prefered browser
 + [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
 + [Chrome](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
 
-
 In Anki, create a new note. Tools -> Manage Note Types
 
 ![image](https://user-images.githubusercontent.com/1938043/59226841-2a44f280-8bd4-11e9-89f4-b402e818ead8.png)
