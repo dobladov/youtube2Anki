@@ -80,10 +80,3 @@ Now after exporting the cards using the star icon next on the transcript options
 File -> Import 
 
 ![image](https://user-images.githubusercontent.com/1938043/59227840-958fc400-8bd6-11e9-897c-505a25c5831a.png)
-
-
-## Known bugs
-
-Navigating from video to video in YouTube will not add the star icon to the transcript, at the moment is necessary to reload the page with the current video.
-
-This will be fixed after implementing navigation events.

@@ -85,12 +85,21 @@ const addButton = () => {
 }
 
 let transcript = null
+const transcriptObserver = new MutationObserver(addButton)
 
 setTimeout(() => {
+  const bodyObserver = new MutationObserver(findTranscript)
+  bodyObserver.observe(document.body, { attributes: true })
+  findTranscript()
+}, 1000)
+
+const findTranscript = () => {
+  transcript = null
+  transcriptObserver.disconnect()
+
   transcript = document.querySelector("ytd-engagement-panel-section-list-renderer")
 
   if (transcript) {
-    const observer = new MutationObserver(() => addButton())
-    observer.observe(transcript, { attributes: true })
+    transcriptObserver.observe(transcript, { attributes: true })
   }
-}, 1000)
+}
