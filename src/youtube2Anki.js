@@ -1,5 +1,3 @@
-console.log("Script loaded")
-
 const toSeconds = (ms) => {
   if (ms) {
     const a = ms.split(":")
@@ -9,7 +7,6 @@ const toSeconds = (ms) => {
 
 const toCSV = (objArray) => {
   const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
-  // let str = `${Object.keys(array[0]).map(value => `"${value}"`).join(",")}` + '\r\n' // Print header
   let str = ``
   return array.reduce((str, next) => {
     str += `${Object.values(next).map(value => `"${value}"`).join(",")}` + '\r\n'
@@ -73,11 +70,9 @@ const getCues = () => {
 }
 
 const addButton = () => {
-
-  const title = transcript.querySelector("h2")
+  const title = transcript.querySelector("#title")
 
   if (title && document.getElementById("toAnkiBtn") === null) {
-    
     const button = document.createElement("button")
     button.innerHTML = "🟊"
     button.id = "toAnkiBtn"
@@ -89,9 +84,13 @@ const addButton = () => {
   } 
 }
 
-var transcript = document.getElementById("transcript")
+let transcript = null
 
-if (transcript) {
-  const observer = new MutationObserver(addButton)
-  observer.observe(transcript, { childList: true })
-}
+setTimeout(() => {
+  transcript = document.querySelector("ytd-engagement-panel-section-list-renderer")
+
+  if (transcript) {
+    const observer = new MutationObserver(() => addButton())
+    observer.observe(transcript, { attributes: true })
+  }
+}, 1000)
