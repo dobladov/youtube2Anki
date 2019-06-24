@@ -5,6 +5,25 @@
     height: var(--yt-button-icon-size, var(--yt-icon-height, 40px));
     color: var(--yt-spec-icon-inactive);
     font-size: var(--iron-icon_-_width, var(--iron-icon-width, 24px));
+    position: relative;
+    top: 2px;
+}
+
+#toAnkiBtn:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    color: currentColor;
+    background-color: var(--yt-spec-icon-active-other);
+    transform: translateX(-25%) translateY(-25%);
+}
+
+#toAnkiBtn:focus:before {
+    opacity: 0.2;
+    transition: .5s opacity;
 }
 
 #toAnkiBtn:hover {
