@@ -1,9 +1,14 @@
+[![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
+[![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
+[![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE)
+[![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.me/dobladov)
 
 # Youtube2Anki ![Logo](https://github.com/dobladov/youtube2Anki/raw/master/src/icons/icon48.png)
 
 ## Web Extension to convert **Youtube transcripts** to **Anki cards**.
 
 This extension adds a star button to the transcript allowing to download the sentences as cards (csv) that can be imported into Anki, allowing to use the original audio/video of the current sentence.
+
 
 ![image](https://user-images.githubusercontent.com/1938043/59228047-1ea6fb00-8bd7-11e9-9da3-3b1d2df9abd6.png)
 
