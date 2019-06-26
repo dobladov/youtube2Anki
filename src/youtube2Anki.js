@@ -62,7 +62,7 @@ const getID = (url) => {
 
 const getCues = () => {
   const cues = [...transcript.querySelectorAll("#body .cue-group")]
-  const title = document.querySelector('#video-title').innerText
+  const title = document.title.replace(" - YouTube", "")
 
   const subs = getSubtitles(cues)
   const csv = toCSV(subs)
