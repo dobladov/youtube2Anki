@@ -27,7 +27,7 @@ const download = (filename, text) => {
 const getSubtitles = (cues) => {
   return cues.map((cue, i) => {
     const time = cue.querySelector(".cue-group-start-offset").innerText
-    const nextTime = (cues[i + 1] 
+    const nextTime = (cues[i + 1]
       && cues[i + 1].querySelector(".cue-group-start-offset").innerText
     ) || null
     const text = cue.querySelector(".cue").innerText
@@ -45,7 +45,7 @@ const getSubtitles = (cues) => {
       endSeconds: toSeconds(nextTime)
     }
   })
-} 
+}
 
 const getID = (url) => {
   let ID = ''
@@ -74,14 +74,14 @@ const addButton = () => {
 
   if (title && document.getElementById("toAnkiBtn") === null) {
     const button = document.createElement("button")
-    button.innerHTML = "🟊"
+    button.innerHTML = "&#9733;"
     button.id = "toAnkiBtn"
     button.title = chrome.i18n.getMessage("exportTitle")
     button.classList.add("yt-icon-button")
     button.addEventListener("click", getCues)
 
     title.parentElement.insertBefore(button, title.nextSibling)
-  } 
+  }
 }
 
 let transcript = null

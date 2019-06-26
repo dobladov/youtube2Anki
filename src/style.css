@@ -6,14 +6,14 @@
     color: var(--yt-spec-icon-inactive);
     font-size: var(--iron-icon_-_width, var(--iron-icon-width, 24px));
     position: relative;
-    top: 2px;
 }
 
 #toAnkiBtn:before {
     content: "";
+    bottom: -10px;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 99%;
+    height: 99%;
     border-radius: 50%;
     opacity: 0;
     color: currentColor;
