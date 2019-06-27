@@ -28,12 +28,15 @@ In Anki, create a new note. Tools -> Manage Note Types
 
 Add a new card with this fields
 
-![image](https://user-images.githubusercontent.com/1938043/59227082-be16be80-8bd4-11e9-937f-573d73b1cf82.png)
+![image](https://user-images.githubusercontent.com/1938043/60300182-b7a37900-992e-11e9-9fe1-3979ab2b6328.png)
 
 Edit the card fields of the new note created with the correspondent code.
 
 *Front Template*
 ```
+{{title}}
+<br>
+
 <span>{{prevText}}</span>
 <br>
 
@@ -77,7 +80,7 @@ span {
 <hr id=answer>
 ```
 
-![image](https://user-images.githubusercontent.com/1938043/59227146-ebfc0300-8bd4-11e9-84c7-2e1f6a5987ef.png)
+![image](https://user-images.githubusercontent.com/1938043/60300373-254fa500-992f-11e9-8171-85ece52f63cf.png)
 
 
 Now after exporting the cards using the star icon next on the transcript options of the YouTube video, is possible to import the new cards using the new note type.
