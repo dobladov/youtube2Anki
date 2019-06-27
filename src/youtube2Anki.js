@@ -42,7 +42,8 @@ const getSubtitles = (cues) => {
       nextText,
       id: getID(window.location.href),
       startSeconds: toSeconds(time),
-      endSeconds: toSeconds(nextTime)
+      endSeconds: toSeconds(nextTime),
+      title: document.querySelector("h1").firstChild.innerText
     }
   })
 }
@@ -62,7 +63,7 @@ const getID = (url) => {
 
 const getCues = () => {
   const cues = [...transcript.querySelectorAll("#body .cue-group")]
-  const title = document.title.replace(" - YouTube", "")
+  const title = document.querySelector("h1").firstChild.innerText
 
   const subs = getSubtitles(cues)
   const csv = toCSV(subs)
