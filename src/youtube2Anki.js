@@ -61,46 +61,28 @@ const getID = (url) => {
   return ID
 }
 
-const getCues = () => {
-  const cues = [...transcript.querySelectorAll("#body .cue-group")]
-  const title = document.querySelector("h1").firstChild.innerText
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  const { type } = request
 
-  const subs = getSubtitles(cues)
-  const csv = toCSV(subs)
-  download(`${title}.csv`, csv)
-}
+  if (type === 'getSubtitles') {
+    const cues = [...document.querySelectorAll("ytd-engagement-panel-section-list-renderer #body .cue-group")]
+    
+    if (cues.length) {
+      const title = document.querySelector("h1").firstChild.innerText
+      const subtitles = getSubtitles(cues)
+      sendResponse({title, subtitles})
 
-const addButton = () => {
-  const title = transcript.querySelector("#title")
-
-  if (title && document.getElementById("toAnkiBtn") === null) {
-    const button = document.createElement("button")
-    button.innerHTML = "&#9733;"
-    button.id = "toAnkiBtn"
-    button.title = chrome.i18n.getMessage("exportTitle")
-    button.classList.add("yt-icon-button")
-    button.addEventListener("click", getCues)
-
-    title.parentElement.insertBefore(button, title.nextSibling)
+      console.log(subtitles, title)
+    } else {
+      sendResponse({subtitles: null, title: null})
+    }
   }
-}
 
-let transcript = null
-const transcriptObserver = new MutationObserver(addButton)
-
-setTimeout(() => {
-  const bodyObserver = new MutationObserver(findTranscript)
-  bodyObserver.observe(document.body, { attributes: true })
-  findTranscript()
-}, 1000)
-
-const findTranscript = () => {
-  transcript = null
-  transcriptObserver.disconnect()
-
-  transcript = document.querySelector("ytd-engagement-panel-section-list-renderer")
-
-  if (transcript) {
-    transcriptObserver.observe(transcript, { attributes: true })
+  if (type === 'download') {
+      const { title, subtitles } = request
+      const csv = toCSV(subtitles)
+      download(`${title}.csv`, csv)
   }
-}
+})
+
+console.log("Content script loaded")
