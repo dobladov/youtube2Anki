@@ -9,9 +9,9 @@
 
 This extension allows to download the transcript of a YouTube video to csv files that can be imported into Anki, allowing to use the original audio/video of the current sentence and without having to download the original media.
 
-![image](https://user-images.githubusercontent.com/1938043/59228047-1ea6fb00-8bd7-11e9-9da3-3b1d2df9abd6.png)
+![example](https://user-images.githubusercontent.com/1938043/60365436-00b80380-99e9-11e9-8524-02916a2619a9.gif)
 
-![image](https://user-images.githubusercontent.com/1938043/59226287-ebfb0380-8bd2-11e9-8f11-0ef5bd789801.png)
+![Anki Card](https://user-images.githubusercontent.com/1938043/59226287-ebfb0380-8bd2-11e9-8f11-0ef5bd789801.png)
 
 
 ## Instructions
@@ -23,11 +23,11 @@ Install the extension for your prefered browser
 
 In Anki, create a new note. Tools -> Manage Note Types
 
-![image](https://user-images.githubusercontent.com/1938043/59226841-2a44f280-8bd4-11e9-89f4-b402e818ead8.png)
+![Manage Notes](https://user-images.githubusercontent.com/1938043/59226841-2a44f280-8bd4-11e9-89f4-b402e818ead8.png)
 
 Add a new card with this fields
 
-![image](https://user-images.githubusercontent.com/1938043/60300182-b7a37900-992e-11e9-9fe1-3979ab2b6328.png)
+![Note Fields](https://user-images.githubusercontent.com/1938043/60300182-b7a37900-992e-11e9-9fe1-3979ab2b6328.png)
 
 Edit the card fields of the new note created with the correspondent code.
 
@@ -79,13 +79,13 @@ span {
 <hr id=answer>
 ```
 
-![image](https://user-images.githubusercontent.com/1938043/60300373-254fa500-992f-11e9-8171-85ece52f63cf.png)
+![Card Template](https://user-images.githubusercontent.com/1938043/60300373-254fa500-992f-11e9-8171-85ece52f63cf.png)
 
 
 Now after exporting the cards using by using the extension icon, is possible to import the new cards using the new note type.
 
 > **Please be sure to open the transcript of the video before pressing the export button**, since the transcript is not created until the user opens it, this step is required.
 
-File -> Import 
+File -> Import
 
-![image](https://user-images.githubusercontent.com/1938043/59227840-958fc400-8bd6-11e9-897c-505a25c5831a.png)
+![Import](https://user-images.githubusercontent.com/1938043/59227840-958fc400-8bd6-11e9-897c-505a25c5831a.png)
