@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "default_locale": "en",
 
   "description": "__MSG_extensionDescription__",
@@ -16,11 +16,26 @@
     "96": "icons/icon96.png"
   },
 
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/icon48.png",
+    "default_title": "__MSG_exportTitle__"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+  
+  "permissions": [
+    "tabs",
+    "notifications"
+  ],
+
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
-      "css": ["style.css"],
-      "js": ["youtube2Anki.js"]
+      "js": ["youtube2Anki.js"],
+      "run_at": "document_start"
     }
-  ]
+  ] 
 }

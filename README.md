@@ -7,8 +7,7 @@
 
 ## Web Extension to convert **Youtube transcripts** to **Anki cards**.
 
-This extension adds a star button to the transcript allowing to download the sentences as cards (csv) that can be imported into Anki, allowing to use the original audio/video of the current sentence.
-
+This extension allows to download the transcript of a YouTube video to csv files that can be imported into Anki, allowing to use the original audio/video of the current sentence and without having to download the original media.
 
 ![image](https://user-images.githubusercontent.com/1938043/59228047-1ea6fb00-8bd7-11e9-9da3-3b1d2df9abd6.png)
 
@@ -83,7 +82,9 @@ span {
 ![image](https://user-images.githubusercontent.com/1938043/60300373-254fa500-992f-11e9-8171-85ece52f63cf.png)
 
 
-Now after exporting the cards using the star icon next on the transcript options of the YouTube video, is possible to import the new cards using the new note type.
+Now after exporting the cards using by using the extension icon, is possible to import the new cards using the new note type.
+
+> **Please be sure to open the transcript of the video before pressing the export button**, since the transcript is not created until the user opens it, this step is required.
 
 File -> Import 
 

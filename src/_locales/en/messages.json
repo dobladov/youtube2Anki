@@ -12,5 +12,15 @@
   "exportTitle": {
     "message": "Export to Anki CSV",
     "description": "Title while hovering the export icon"
+  },
+  
+  "errorTranscriptNotFound": {
+    "message": "Please, open the transcript of the video.",
+    "description": "Error when the transcript is not loadded on the current tab"
+  },
+
+  "errorTranscriptNotFoundTitle": {
+    "message": "Transcript not found",
+    "description": "Title of the error when the transcript is not loaded on the current tab"
   }
 }

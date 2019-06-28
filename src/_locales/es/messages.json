@@ -12,5 +12,15 @@
   "exportTitle": {
     "message": "Exportar a CSV Anki",
     "description": "Título al pasar sobre el icono"
+  },
+  
+  "errorTranscriptNotFound": {
+    "message": "Por favor, abre la transcripción del video.",
+    "description": "Error cuando la transcripción no está presente en la página actual"
+  },
+
+  "errorTranscriptNotFoundTitle": {
+    "message": "Transcripción no encontrada",
+    "description": "Titutlo para el rror cuando la transcripción no está presente en la página actual"
   }
 }
