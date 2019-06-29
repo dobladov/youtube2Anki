@@ -65,14 +65,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { type } = request
 
   if (type === 'getSubtitles') {
-    const cues = [...document.querySelectorAll("ytd-engagement-panel-section-list-renderer #body .cue-group")]
+    const cues = [...document.querySelectorAll(".cue-group")]
     
     if (cues.length) {
       const title = document.querySelector("h1").firstChild.innerText
       const subtitles = getSubtitles(cues)
       sendResponse({title, subtitles})
-
-      console.log(subtitles, title)
     } else {
       sendResponse({subtitles: null, title: null})
     }
@@ -84,5 +82,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       download(`${title}.csv`, csv)
   }
 })
-
-console.log("Content script loaded")
