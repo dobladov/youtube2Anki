@@ -42,7 +42,7 @@ const getSubtitles = (cues) => {
       nextText,
       id: getID(window.location.href),
       startSeconds: toSeconds(time),
-      endSeconds: toSeconds(nextTime),
+      endSeconds: toSeconds(nextTime) && (toSeconds(nextTime) + 1),
       title: document.querySelector("h1").firstChild.innerText
     }
   })
