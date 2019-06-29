@@ -1,5 +1,13 @@
+const enableDisableTab = (id, url) => {
+  const re = /(http|https):\/\/(www.)?youtube\.com\\*/
+  if (re.test(url)) {
+    chrome.browserAction.enable(id)
+  } else {
+    chrome.browserAction.disable(id)
+  }
+}
+
 chrome.browserAction.onClicked.addListener((currentTab) => {
-  console.log("Click on button")
   chrome.tabs.sendMessage(currentTab.id, {type: "getSubtitles"}, (response) => {
 
     if (chrome.runtime.lastError) {
@@ -15,10 +23,8 @@ chrome.browserAction.onClicked.addListener((currentTab) => {
           type: "download",
           title,
           subtitles
-        }, (response) => {
-          console.log("FIle downloaded")
-      })
-
+        }
+      )
     } else {
       chrome.notifications.create("youtube2anki", {
         "type": "basic",
@@ -31,15 +37,15 @@ chrome.browserAction.onClicked.addListener((currentTab) => {
 })
 
 chrome.tabs.onActivated.addListener((tab) => {
-  console.log("Tab changed")
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
     const [activeTab] = tabs
     const { url, id } = activeTab
-    const re = /(http|https):\/\/(www.)?youtube\.com\\*/
-    if (re.test(url)) {
-      chrome.browserAction.enable(id)
-    } else {
-      chrome.browserAction.disable(id)
-    }
+    enableDisableTab(id, url)
   })
+})
+
+chrome.tabs.onUpdated.addListener((id, changeInfo, tab) => {
+  if (changeInfo.status == "complete") {  
+      enableDisableTab(id, tab.url)
+    }
 })
