@@ -1,26 +1,30 @@
 {
-  "extensionName": {
-    "message": "Youtube2Anki",
-    "description": "Nombre de la extension."
-  },
-
-  "extensionDescription": {
-    "message": "Convierte transcripciones de YouTube tarjetas de Anki",
-    "description": "Descripción de la extensión."
-  },
-  
-  "exportTitle": {
-    "message": "Exportar a CSV Anki",
-    "description": "Título al pasar sobre el icono"
-  },
-  
-  "errorTranscriptNotFound": {
-    "message": "Por favor, abre la transcripción del video.",
-    "description": "Error cuando la transcripción no está presente en la página actual"
-  },
-
-  "errorTranscriptNotFoundTitle": {
-    "message": "Transcripción no encontrada",
-    "description": "Titutlo para el rror cuando la transcripción no está presente en la página actual"
-  }
+	"errorSendingCards": {
+		"description": "Notificación cuando algo sale mal.",
+		"message": "Error enviando las tarjetas a Anki"
+	},
+	"errorTranscriptNotFound": {
+		"description": "Error cuando la transcripción no está presente en la página actual",
+		"message": "Por favor, abre la transcripción del video."
+	},
+	"errorTranscriptNotFoundTitle": {
+		"description": "Titulo para el error cuando la transcripción no está presente en la página actual",
+		"message": "Transcripción no encontrada"
+	},
+	"exportTitle": {
+		"description": "Título al pasar sobre el icono",
+		"message": "Exportar a Anki CSV "
+	},
+	"extensionDescription": {
+		"description": "Descripción de la extensión.",
+		"message": "Convierte transcripciones de YouTube tarjetas de Anki"
+	},
+	"extensionName": {
+		"description": "Nombre de la extensión.",
+		"message": "Youtube2Anki"
+	},
+	"sucessCreatingCards": {
+		"description": "Notificación cuando las tarjetas son creadas",
+		"message": "Tarjetas creadas correctamente"
+	}
 }

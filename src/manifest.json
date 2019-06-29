@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "default_locale": "en",
 
   "description": "__MSG_extensionDescription__",
@@ -19,7 +19,8 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": "icons/icon48.png",
-    "default_title": "__MSG_exportTitle__"
+    "default_title": "__MSG_exportTitle__",
+    "default_popup": "popup/popup.html"
   },
 
   "background": {
@@ -37,5 +38,5 @@
       "js": ["youtube2Anki.js"],
       "run_at": "document_start"
     }
-  ] 
+  ]
 }

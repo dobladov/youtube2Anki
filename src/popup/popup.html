@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Popup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="popup">
+    <div class="card">
+      <h2>Send to Anki</h2>
+      
+      <p>
+        Use <a target="_blank" href="https://ankiweb.net/shared/info/2055492159">AnkiConnect</a> to add the cards directly to a deck.
+      </p>
+
+      <p id="conectionMessage" class="invalid">
+        &#9888; Conection not posible, Anki must be running with the addon, try again.
+      </p>
+
+      <form id="sendToAnkiForm" class="hide">
+        <input required type=text list="decksList" id="deck" placeholder="Deck Name">
+        <datalist id="decksList"></datalist>
+        
+        <br>
+        <br>
+        
+        <div class="right">
+          <button
+            id="sendToAnkiBtn"
+            class="btn"
+            type="submit"
+          >
+            Send
+        </button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="card">
+      <h2>Export</h2>
+      
+      <p>Export the transcript as a CSV file.</p>
+      <div class="right">
+        <button 
+         id="downloadBtn"
+         class="btn"
+        >
+          Download
+        </button>
+      </div>
+    </div>
+
+  </div>
+  
+    <script src="./popup.js"></script>
+</body>
+</html>
