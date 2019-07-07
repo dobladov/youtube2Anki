@@ -177,19 +177,9 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                                 <span>{{nextText}}</span>
                               `,
                               "Back": `
-                                .card {
-                                  font-family: futura-pt,sans-serif,sans-serif;
-                                  font-size: 20px;
-                                  text-align: center;
-                                  color: black;
-                                  background-color: #e9e9e9;
-                                }
-                                
-                                span {
-                                  font-size: 0.9rem;
-                                  color: #3c3c3c;
-                                }
-                               `
+                                {{FrontSide}}
+                                <hr id=answer>
+                              `
                           }
                       ]
                   }
