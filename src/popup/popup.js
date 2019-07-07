@@ -177,7 +177,9 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                                 <span>{{nextText}}</span>
                               `,
                               "Back": `
-                               `
+                                {{FrontSide}}
+                                <hr id=answer>
+                              `
                           }
                       ]
                   }
