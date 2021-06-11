@@ -1,0 +1,29 @@
+{
+  "name": "youtube2anki",
+  "version": "0.0.9",
+  "description": "[![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/) [![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi) [![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE) [![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.me/dobladov)",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dobladov/youtube2Anki.git"
+  },
+  "keywords": [
+    "anki"
+  ],
+  "author": "Daniel Doblado",
+  "license": "GPL3",
+  "bugs": {
+    "url": "https://github.com/dobladov/youtube2Anki/issues"
+  },
+  "homepage": "https://github.com/dobladov/youtube2Anki#readme",
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0"
+  }
+}
