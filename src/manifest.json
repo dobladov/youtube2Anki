@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "default_locale": "en",
 
   "description": "__MSG_extensionDescription__",
@@ -16,7 +16,7 @@
     "96": "icons/icon96.png"
   },
 
-  "browser_action": {
+  "action": {
     "browser_style": true,
     "default_icon": "icons/icon48.png",
     "default_title": "__MSG_exportTitle__",
@@ -24,7 +24,7 @@
   },
 
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
 
   "permissions": [

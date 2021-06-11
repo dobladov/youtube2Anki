@@ -23,7 +23,7 @@
 		"description": "Nombre de la extensión.",
 		"message": "Youtube2Anki"
 	},
-	"sucessCreatingCards": {
+	"successCreatingCards": {
 		"description": "Notificación cuando las tarjetas son creadas",
 		"message": "Tarjetas creadas correctamente"
 	}
