@@ -16,7 +16,7 @@ chrome.tabs.onActivated.addListener((tab) => {
 })
 
 chrome.tabs.onUpdated.addListener((id, changeInfo, tab) => {
-  if (changeInfo.status == "complete") {  
+  if (changeInfo.status == "complete") {
       enableDisableTab(id, tab.url)
     }
 })

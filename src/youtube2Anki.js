@@ -34,7 +34,7 @@ const getSubtitles = (cues) => {
     const prevText = (cues[i - 1] && cues[i - 1].querySelector(".cue").innerText) || null
     const nextText = (cues[i + 1] && cues[i + 1].querySelector(".cue").innerText) || null
 
-     return {
+    return {
       time,
       nextTime: nextTime || time,
       text,
@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (type === 'getSubtitles') {
     const cues = [...document.querySelectorAll(".cue-group")]
-    
+
     if (cues.length) {
       const title = document.querySelector("h1").firstChild.innerText
       const subtitles = getSubtitles(cues)
