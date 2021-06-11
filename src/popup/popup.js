@@ -1,4 +1,4 @@
-const conectionMessage = document.getElementById("conectionMessage")
+const connectionMessage = document.getElementById("connectionMessages")
 const decksList = document.getElementById("decksList")
 const deck = document.getElementById("deck")
 
@@ -18,7 +18,7 @@ const initDecks = async (title) => {
   )
   const decks = await deckNamesResponse.json()
   !decks.result.includes(title) && decks.result.unshift(title)
-  
+
   decks.result.forEach(name => {
     const option = document.createElement("option")
     option.innerHTML = name
@@ -67,7 +67,7 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
   const { id } = activeTab
 
   chrome.tabs.sendMessage(id, {type: "getSubtitles"}, async (response) => {
-  
+
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError.message)
       return
@@ -77,7 +77,7 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
 
     if (title && subtitles) {
       const downloadBtn = document.getElementById("downloadBtn")
-  
+
       downloadBtn.addEventListener("click", () => {
         chrome.tabs.sendMessage(id,
           {
@@ -87,20 +87,20 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
           }
         )
       })
-        
+
       const sendToAnkiForm = document.getElementById("sendToAnkiForm")
 
       try {
         await initDecks(title)
-        conectionMessage.classList.add("hide")
+        connectionMessage.classList.add("hide")
         sendToAnkiForm.classList.remove("hide")
 
         sendToAnkiForm.addEventListener("submit", async (e) => {
           e.preventDefault()
           sendToAnkiForm.classList.add("hide")
-          
+
           const selectedDeck = deck.value
-          
+
           try {
             const createDeckResponse = await fetch(`${scheme}://${host}:${port}`,
               {
@@ -114,9 +114,9 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                 })
               }
             )
-  
+
             const {res, err} = await createDeckResponse.json()
-            if (err) throw new Error(err)  
+            if (err) throw new Error(err)
 
             const createModelResponse = await fetch(`${scheme}://${host}:${port}`,
               {
@@ -145,7 +145,7 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                           color: black;
                           background-color: #e9e9e9;
                         }
-                        
+
                         span {
                           font-size: 0.9rem;
                           color: #3c3c3c;
@@ -156,13 +156,13 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                               "Front": `
                                 {{title}}
                                 <br>
-                                
+
                                 <span>{{prevText}}</span>
                                 <br>
-                                
+
                                 {{text}}
                                 <br>
-                                
+
                                 <iframe
                                     width="560"
                                     height="315"
@@ -170,7 +170,7 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                                     frameborder=0
                                       autoplay=1
                                 />
-                                
+
                                 <br>
                                 <span>{{time}} - {{nextTime}}</span>
                                 <br>
@@ -186,10 +186,10 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                 })
               }
             )
-  
+
             const {errorCreateModel} = await createModelResponse.json()
-            if (errorCreateModel) throw new Error(errorCreateModel)  
-      
+            if (errorCreateModel) throw new Error(errorCreateModel)
+
             const addNotesResponse = await fetch(`${scheme}://${host}:${port}`,
               {
                 method: 'POST',
@@ -204,7 +204,7 @@ chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             )
             const {result, error} = await addNotesResponse.json()
             if (error) throw new Error(error)
-  
+
             sendNotification(
               chrome.i18n.getMessage("extensionName"),
               chrome.i18n.getMessage("sucessCreatingCards")
