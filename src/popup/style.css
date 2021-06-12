@@ -6,6 +6,7 @@
   --card-bg-hover-color: #FEFEFE;
   --p-color: #5B6171;
   --invalid-color: #ffe1e7;
+  --action-disabled-color: #d8d8d8;
 }
 
 html {
@@ -23,38 +24,21 @@ a {
 }
 
 body {
+  min-width: 400px;
+  background-color: var(--main-bg-color);
   font-family: futura-pt, sans-serif,sans-serif;
   color: #3c3c3c;
-  padding: 0;
-  margin: 0;
-}
-
-.popup {
-  background-color: var(--main-bg-color);
-  width: 400px;
-  margin: 0 auto;
   padding: 20px;
+  margin: 0;
 }
 
 .card {
   background-color: var(--card-bg-color);
   box-shadow: 0 -5px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
-  padding: 40px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding-bottom: 40px;
 }
 
 .card:hover {
   background-color: var(--card-bg-hover-color);
-}
-
-.card p.invalid {
-  margin-bottom: 0;
-}
-
-.popup .card:last-child {
-  margin-bottom: 0;
 }
 
 .btn {
@@ -63,18 +47,17 @@ body {
   color: var(--card-bg-hover-color);
   padding: 10px 20px;
   border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
   font-weight: 600;
   font-size: 13px;
-}
-
-.right {
-  text-align: right;
 }
 
 .btn:hover,
 .btn:focus {
   background-color: var(--action-hover-color);
+}
+
+.btn:disabled {
+  background-color: var(--action-disabled-color);
 }
 
 h2 {
