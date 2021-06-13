@@ -74,6 +74,12 @@ chrome.runtime.onMessage.addListener(
     const { type } = request
 
     if (type === 'getSubtitles') {
+      // // Attempt to open transcripts
+      // const btn = document.querySelector('.dropdown-trigger button')
+      // btn.click()
+      // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
+      // menus[menus.length - 1].click()
+
       const cues = [...document.querySelectorAll('.cue-group')]
 
       if (cues.length) {
@@ -82,7 +88,6 @@ chrome.runtime.onMessage.addListener(
         console.log({ title, subtitles })
         sendResponse({ title, subtitles })
       } else {
-        console.log('Nothing found')
         sendResponse({ subtitles: null, title: null })
       }
     }

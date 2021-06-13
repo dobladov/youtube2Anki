@@ -49,6 +49,7 @@ body {
   border-radius: 10px;
   font-weight: 600;
   font-size: 13px;
+  cursor: pointer;
 }
 
 .btn:hover,

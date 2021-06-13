@@ -50,23 +50,23 @@ const styling = css`
   }
 `
 const toggleItem = (disabled, index) => {
-  mainState.list[index].disabled = !disabled
+  mainState.subtitles[index].disabled = !disabled
 }
 
 const setAll = (state) => {
-  mainState.list.forEach(item => {
+  mainState.subtitles.forEach(item => {
     item.disabled = state
   })
 }
 
 const setRandom = () => {
-  mainState.list.forEach(item => {
+  mainState.subtitles.forEach(item => {
     item.disabled = Math.random() < 0.5
   })
 }
 
 export const List = () => {
-  const enabledCards = mainState.list.filter(item => !item.disabled).length
+  const enabledCards = mainState.subtitles.filter(item => !item.disabled).length
 
   return div(
     {
@@ -78,7 +78,7 @@ export const List = () => {
       },
       h2({}, 'Select'),
       button({
-        disabled: enabledCards === mainState.list.length,
+        disabled: enabledCards === mainState.subtitles.length,
         class: 'btn',
         onclick: () => setAll(false)
       }, 'All'),
@@ -93,7 +93,7 @@ export const List = () => {
       }, 'Random')
     ),
     ul({},
-      mainState.list.map((item, i) => (
+      mainState.subtitles.map((item, i) => (
         li({
           class: !!item.disabled && 'disabled',
           onclick: (e) => {
@@ -125,7 +125,7 @@ export const List = () => {
               mainState.view = 'export'
             }
           },
-      `Export ${mainState.list.filter(item => !item.disabled).length} cards`
+      `Export ${mainState.subtitles.filter(item => !item.disabled).length} cards`
         )
         : text({}, '⚠️ Select at least 1 card')
     )
