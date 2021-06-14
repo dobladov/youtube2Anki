@@ -93,7 +93,7 @@ export const createState = (stateObj) => {
   }
 
   // create root proxy
-  var rootProxy = new Proxy({}, new Handler('root'))
+  const rootProxy = new Proxy({}, new Handler('root'))
   Object.assign(rootProxy, stateObj)
   return rootProxy
 }
