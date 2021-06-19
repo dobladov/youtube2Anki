@@ -1,3 +1,9 @@
+/**
+ * Enables the extension if the context is YouTube
+ *
+ * @param {number} id
+ * @param {string} url
+ */
 const enableDisableTab = (id, url) => {
   const re = /(http|https):\/\/(www.)?youtube\.com\\*/
   if (re.test(url)) {
@@ -11,12 +17,12 @@ chrome.tabs.onActivated.addListener((tab) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const [activeTab] = tabs
     const { url, id } = activeTab
-    enableDisableTab(id, url)
+    id && url && enableDisableTab(id, url)
   })
 })
 
 chrome.tabs.onUpdated.addListener((id, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {
-    enableDisableTab(id, tab.url)
+    id && tab?.url && enableDisableTab(id, tab.url)
   }
 })

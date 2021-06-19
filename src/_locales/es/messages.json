@@ -1,16 +1,4 @@
 {
-	"errorSendingCards": {
-		"description": "Notificación cuando algo sale mal.",
-		"message": "Error enviando las tarjetas a Anki"
-	},
-	"errorTranscriptNotFound": {
-		"description": "Error cuando la transcripción no está presente en la página actual",
-		"message": "Por favor, abre la transcripción del video."
-	},
-	"errorTranscriptNotFoundTitle": {
-		"description": "Titulo para el error cuando la transcripción no está presente en la página actual",
-		"message": "Transcripción no encontrada"
-	},
 	"exportTitle": {
 		"description": "Título al pasar sobre el icono",
 		"message": "Exportar a Anki CSV "
@@ -22,9 +10,5 @@
 	"extensionName": {
 		"description": "Nombre de la extensión.",
 		"message": "Youtube2Anki"
-	},
-	"successCreatingCards": {
-		"description": "Notificación cuando las tarjetas son creadas",
-		"message": "Tarjetas creadas correctamente"
 	}
 }
