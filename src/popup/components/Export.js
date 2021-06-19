@@ -1,5 +1,6 @@
-import { state as mainState } from '../popup.js'
 import { div, css, h2, button, p } from '../skruv/html.js'
+
+import { state as mainState } from '../state.js'
 import { ExportAnki } from './ExportAnki.js'
 import { getEnabledSubtitles } from '../utils.js'
 

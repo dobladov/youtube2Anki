@@ -1,5 +1,6 @@
-import { state as mainState } from '../popup.js'
 import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
+
+import { state as mainState } from '../state.js'
 import { getEnabledSubtitles } from '../utils.js'
 
 const styling = css`

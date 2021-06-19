@@ -1,5 +1,6 @@
-import { state as mainState } from '../popup.js'
 import { div, h2, button, p, text, a, datalist, form, input, option, br } from '../skruv/html.js'
+
+import { state as mainState } from '../state.js'
 import { sendNotification, getEnabledSubtitles } from '../utils.js'
 
 const scheme = 'http'

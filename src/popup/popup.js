@@ -1,21 +1,12 @@
 
 import { body } from './skruv/html.js'
-import { createState } from './skruv/state.js'
 import { renderNode } from './skruv/vDOM.js'
 
+import { state } from './state.js'
 import { Export } from './components/Export.js'
 import { List } from './components/List.js'
 import { Instructions } from './components/Instructions.js'
 import { Loading } from './components/Loading.js'
-
-export const state = createState({
-  view: 'loading',
-  activeTabId: null,
-  title: null,
-  subtitles: null,
-  deckNames: null,
-  error: {}
-})
 
 document.addEventListener('DOMContentLoaded', () => {
   (async () => {
