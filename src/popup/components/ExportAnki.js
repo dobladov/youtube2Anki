@@ -1,5 +1,6 @@
 import { state as mainState } from '../popup.js'
 import { div, h2, button, p, text, a, datalist, form, input, option, br } from '../skruv/html.js'
+import { sendNotification } from '../utils.js'
 
 const scheme = 'http'
 const host = 'localhost'
@@ -11,7 +12,7 @@ const port = 8765
  * @param {Object} subtitles
  * @param {string} deck
  * @param {string} model
- * @returns
+ * @returns {Record<string, string>}
  */
 const getNotes = (subtitles, deck, model) => (
   subtitles.map(subtitle => (
@@ -38,7 +39,8 @@ const getNotes = (subtitles, deck, model) => (
 )
 
 /**
- * Obtain deck names form Anki
+ * Obtains deck names form Anki
+ * and stores them in the state
  *
  * @param {string} title
  */
@@ -54,28 +56,154 @@ const initDecks = async (title) => {
       }
     )).json()
 
-    console.log(decks)
-
-    if (!decks.includes(mainState.title)) {
-      decks.push(mainState.title)
+    // Add the title if it does not exist as a deck in Anki
+    if (!decks.includes(title)) {
+      decks.push(title)
     }
 
     mainState.deckNames = decks.filter(Boolean)
   } catch (error) {
     console.log(error)
-
     mainState.error = {
       type: 'connection',
-      message: 'Can\'t connect to Anki'
+      message: '⚠️ Is not possible to connect with Anki, make sure is running'
     }
   }
 }
 
+/**
+ * Creates a new deck in Anki with the given name
+ *
+ * @param {string} deckName
+ */
+const createDeck = async (deckName) => {
+  const createDeckResponse = await fetch(`${scheme}://${host}:${port}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'createDeck',
+        version: 6,
+        params: {
+          deck: deckName
+        }
+      })
+    }
+  )
+
+  const { err } = await createDeckResponse.json()
+  if (err) throw new Error(err)
+}
+
+/**
+ * Creates the model in which the cards will be represented
+ */
+const createModel = async () => {
+  const createModelResponse = await fetch(`${scheme}://${host}:${port}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'createModel',
+        version: 6,
+        params: {
+          modelName: 'Youtube2Anki',
+          inOrderFields: [
+            'time',
+            'nextTime',
+            'text',
+            'prevText',
+            'nextText',
+            'id',
+            'startSeconds',
+            'endSeconds',
+            'title'
+          ],
+          css: `
+              .card {
+                font-family: futura-pt,sans-serif,sans-serif;
+                font-size: 20px;
+                text-align: center;
+                color: black;
+                background-color: #e9e9e9;
+              }
+
+              span {
+                font-size: 0.9rem;
+                color: #3c3c3c;
+              }
+            `,
+          cardTemplates: [
+            {
+              Front: `
+                      {{title}}
+                      <br>
+
+                      <span>{{prevText}}</span>
+                      <br>
+
+                      {{text}}
+                      <br>
+
+                      <iframe
+                          width="560"
+                          height="315"
+                          src="https://www.youtube.com/embed/{{id}}?start={{startSeconds}}&end={{endSeconds}}&autoplay=1"
+                          frameborder=0
+                            autoplay=1
+                      />
+
+                      <br>
+                      <span>{{time}} - {{nextTime}}</span>
+                      <br>
+                      <span>{{nextText}}</span>
+                    `,
+              Back: `
+                      {{FrontSide}}
+                      <hr id=answer>
+                    `
+            }
+          ]
+        }
+      })
+    }
+  )
+
+  const { errorCreateModel } = await createModelResponse.json()
+  if (errorCreateModel) throw new Error(errorCreateModel)
+}
+
+/**
+ * Adds the given notes to the deck
+ *
+ * @param {Record<string, string>} notes
+ * @param {string} deckName
+ */
+const addNotes = async (notes, deckName) => {
+  console.log('add notes')
+
+  const addNotesResponse = await fetch(`${scheme}://${host}:${port}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'addNotes',
+        version: 6,
+        params: {
+          notes: getNotes(notes, deckName, 'Youtube2Anki')
+        }
+      })
+    }
+  )
+  const { error } = await addNotesResponse.json()
+  if (error) throw new Error(error)
+}
+
+/**
+ * Component that handles Connection to Anki
+ */
 export const ExportAnki = () => div(
   {
     class: 'card',
     oncreate: async () => {
-      await initDecks()
+      await initDecks(mainState.title)
     }
   },
   h2({}, 'Send to Anki'),
@@ -85,10 +213,18 @@ export const ExportAnki = () => div(
       href: 'https://ankiweb.net/shared/info/2055492159',
       target: '_blank'
     }, 'Anki Connect'),
-    text({}, ' to add cards directly to a deck'),
-    mainState.error && p({}, mainState.error.message)
+    text({}, ' to add cards directly to a deck')
   ),
-  // pre({}, JSON.stringify(mainState, null, 2)),
+  mainState.error.message && p({}, mainState.error.message),
+  mainState.error.message && button({
+    class: 'btn',
+    onclick: async () => {
+      mainState.error = {}
+      await initDecks(mainState.title)
+    }
+  },
+  'Reconnect'
+  ),
   mainState.deckNames &&
       form(
         {
@@ -98,113 +234,21 @@ export const ExportAnki = () => div(
             const deckName = formData.get('deckName')
 
             try {
-              const createDeckResponse = await fetch(`${scheme}://${host}:${port}`,
-                {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    action: 'createDeck',
-                    version: 6,
-                    params: {
-                      deck: deckName
-                    }
-                  })
-                }
+              await createDeck(deckName)
+              await createModel()
+              await addNotes(mainState.subtitles, deckName)
+
+              sendNotification(
+                '✅ Success adding the cards',
+                'Check Anki to review them',
+                () => window.close()
               )
-
-              const { err } = await createDeckResponse.json()
-              if (err) throw new Error(err)
-
-              const createModelResponse = await fetch(`${scheme}://${host}:${port}`,
-                {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    action: 'createModel',
-                    version: 6,
-                    params: {
-                      modelName: 'Youtube2Anki',
-                      inOrderFields: [
-                        'time',
-                        'nextTime',
-                        'text',
-                        'prevText',
-                        'nextText',
-                        'id',
-                        'startSeconds',
-                        'endSeconds',
-                        'title'
-                      ],
-                      css: `
-                          .card {
-                            font-family: futura-pt,sans-serif,sans-serif;
-                            font-size: 20px;
-                            text-align: center;
-                            color: black;
-                            background-color: #e9e9e9;
-                          }
-
-                          span {
-                            font-size: 0.9rem;
-                            color: #3c3c3c;
-                          }
-                        `,
-                      cardTemplates: [
-                        {
-                          Front: `
-                                  {{title}}
-                                  <br>
-
-                                  <span>{{prevText}}</span>
-                                  <br>
-
-                                  {{text}}
-                                  <br>
-
-                                  <iframe
-                                      width="560"
-                                      height="315"
-                                      src="https://www.youtube.com/embed/{{id}}?start={{startSeconds}}&end={{endSeconds}}&autoplay=1"
-                                      frameborder=0
-                                        autoplay=1
-                                  />
-
-                                  <br>
-                                  <span>{{time}} - {{nextTime}}</span>
-                                  <br>
-                                  <span>{{nextText}}</span>
-                                `,
-                          Back: `
-                                  {{FrontSide}}
-                                  <hr id=answer>
-                                `
-                        }
-                      ]
-                    }
-                  })
-                }
-              )
-
-              const { errorCreateModel } = await createModelResponse.json()
-              if (errorCreateModel) throw new Error(errorCreateModel)
-
-              const addNotesResponse = await fetch(`${scheme}://${host}:${port}`,
-                {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    action: 'addNotes',
-                    version: 6,
-                    params: {
-                      notes: getNotes(mainState.subtitles, deckName, 'Youtube2Anki')
-                    }
-                  })
-                }
-              )
-              const { error } = await addNotesResponse.json()
-              if (error) throw new Error(error)
-
-              console.log('Success created and shit')
             } catch (error) {
               console.log(error)
-              console.log('Can\'t send the cards')
+              sendNotification(
+                '⚠️ Error creating the cards',
+                error.message
+              )
             }
           }
         },
@@ -213,7 +257,8 @@ export const ExportAnki = () => div(
           type: 'text',
           required: true,
           placeholder: 'Deck Name',
-          list: 'deckList'
+          list: 'deckList',
+          value: mainState.title
         }),
         datalist({
           id: 'deckList'
