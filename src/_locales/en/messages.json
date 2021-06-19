@@ -1,16 +1,4 @@
 {
-	"errorSendingCards": {
-		"description": "Notification when something goes wrong.",
-		"message": "Error while sending the cards to Anki"
-	},
-	"errorTranscriptNotFound": {
-		"description": "Error when the transcript is not loaded on the current tab",
-		"message": "Please, open the transcript of the video."
-	},
-	"errorTranscriptNotFoundTitle": {
-		"description": "Title of the error when the transcript is not loaded on the current tab",
-		"message": "Transcript not found"
-	},
 	"exportTitle": {
 		"description": "Title while hovering the export icon",
 		"message": "Export to Anki CSV"
@@ -22,9 +10,5 @@
 	"extensionName": {
 		"description": "Name of the extension.",
 		"message": "Youtube2Anki"
-	},
-	"successCreatingCards": {
-		"description": "Notification when the cards are created",
-		"message": "Cards successfully created"
 	}
 }
