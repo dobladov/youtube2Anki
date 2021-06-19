@@ -11,6 +11,12 @@ const toSeconds = (ms) => {
   }
 }
 
+/**
+ * Transforms the given object to CSV
+ *
+ * @param {Object} objArray
+ * @returns {string}
+ */
 const toCSV = (objArray) => {
   const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
   const str = ''
@@ -20,6 +26,12 @@ const toCSV = (objArray) => {
   }, str)
 }
 
+/**
+ * Starts the download of the given text
+ *
+ * @param {string} filename
+ * @param {string} text
+ */
 const download = (filename, text) => {
   const link = document.createElement('a')
   link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(text))
@@ -30,6 +42,12 @@ const download = (filename, text) => {
   document.body.removeChild(link)
 }
 
+/**
+ * Crawl the subtitles frm the YouTube transcript
+ *
+ * @param {HTMLElement[]} cues
+ * @returns {Record<string, string>}
+ */
 const getSubtitles = (cues) => {
   return cues.map((cue, i) => {
     const time = cue.querySelector('.cue-group-start-offset').innerText
@@ -54,6 +72,12 @@ const getSubtitles = (cues) => {
   })
 }
 
+/**
+ * Extracts and returns the id of a YouTube url
+ *
+ * @param {string} url
+ * @returns {?string}
+ */
 const getID = (url) => {
   let ID = ''
   url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
@@ -73,8 +97,9 @@ chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     const { type } = request
 
+    // Obtains the subtitles from the transcript
     if (type === 'getSubtitles') {
-      // // Attempt to open transcripts
+      // // Attempt to open transcripts (incomplete)
       // const btn = document.querySelector('.dropdown-trigger button')
       // btn.click()
       // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
@@ -85,7 +110,6 @@ chrome.runtime.onMessage.addListener(
       if (cues.length) {
         const title = document.querySelector('h1').firstElementChild.innerText
         const subtitles = getSubtitles(cues)
-        console.log({ title, subtitles })
         sendResponse({ title, subtitles })
       } else {
         sendResponse({ subtitles: null, title: null })
