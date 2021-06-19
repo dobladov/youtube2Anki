@@ -1,8 +1,8 @@
 /**
  * Returns the given milliseconds in seconds
  *
- * @param {number} ms amount of milliseconds
- * @returns {number}
+ * @param {string} ms amount of milliseconds
+ * @returns {number | undefined}
  */
 const toSeconds = (ms) => {
   if (ms) {
@@ -46,7 +46,7 @@ const download = (filename, text) => {
  * Crawl the subtitles frm the YouTube transcript
  *
  * @param {HTMLElement[]} cues
- * @returns {Record<string, string>[]}
+ * @returns {Object}
  */
 const getSubtitles = (cues) => {
   return cues.map((cue, i) => {

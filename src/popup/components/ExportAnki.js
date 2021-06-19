@@ -10,10 +10,10 @@ const port = 8765
 /**
  * Format the subtitles for Anki
  *
- * @param {Object} subtitles
+ * @param {Record<string, string | boolean>[]} subtitles
  * @param {string} deck
  * @param {string} model
- * @returns {Record<string, string>[]}
+ * @returns {Object[]}
  */
 const getNotes = (subtitles, deck, model) => (
   subtitles.map(subtitle => (
@@ -66,7 +66,6 @@ const initDecks = async (title) => {
   } catch (error) {
     console.log(error)
     mainState.error = {
-      type: 'connection',
       message: '⚠️ Is not possible to connect with Anki, make sure is running'
     }
   }
@@ -175,7 +174,7 @@ const createModel = async () => {
 /**
  * Adds the given notes to the deck
  *
- * @param {Record<string, string>[]} notes
+ * @param {Record<string, string | boolean>[]} notes
  * @param {string} deckName
  */
 const addNotes = async (notes, deckName) => {
@@ -229,10 +228,11 @@ export const ExportAnki = () => div(
   mainState.deckNames &&
       form(
         {
-          onsubmit: async (e) => {
+          onsubmit: async (/** @type {Event} */e) => {
             e.preventDefault()
+            // @ts-ignore
             const formData = new FormData(e.target)
-            const deckName = formData.get('deckName')
+            const deckName = /** @type {string} */(formData.get('deckName'))
 
             try {
               const subtitles = getEnabledSubtitles(mainState.subtitles, true)

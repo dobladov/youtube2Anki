@@ -4,6 +4,7 @@ import { state as mainState } from '../state.js'
 import { ExportAnki } from './ExportAnki.js'
 import { getEnabledSubtitles } from '../utils.js'
 
+// @ts-ignore
 const styling = css`
   .container {
     display: flex;

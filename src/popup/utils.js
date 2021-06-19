@@ -21,9 +21,9 @@ export const sendNotification = (title, message, callback) => {
 /**
  * Gives only the subtitles that are enabled
  *
- * @param {Record<string, string>[]} subtitles
+ * @param {Record<string, string | boolean>[]} subtitles
  * @param {boolean} [clean]
- * @returns {Record<string, string>[]}
+ * @returns {Record<string, string | boolean>[]}
  */
 export const getEnabledSubtitles = (subtitles, clean) => {
   const enabledSubtitles = subtitles.filter(item => !item.disabled)

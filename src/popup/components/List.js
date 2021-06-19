@@ -3,6 +3,7 @@ import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
 import { state as mainState } from '../state.js'
 import { getEnabledSubtitles } from '../utils.js'
 
+// @ts-ignore
 const styling = css`
   .container  {
     display: flex;
@@ -51,16 +52,31 @@ const styling = css`
     text-decoration: line-through;
   }
 `
+
+/**
+ * Toggle the item between enabled and disabled
+ *
+ * @param {boolean} disabled
+ * @param {number} index
+ */
 const toggleItem = (disabled, index) => {
   mainState.subtitles[index].disabled = !disabled
 }
 
+/**
+ * Sets all items a enabled/disabled
+ *
+ * @param {boolean} state
+ */
 const setAll = (state) => {
   mainState.subtitles.forEach(item => {
     item.disabled = state
   })
 }
 
+/**
+ * Makes disabled property of all items random
+ */
 const setRandom = () => {
   mainState.subtitles.forEach(item => {
     item.disabled = Math.random() < 0.5
@@ -98,7 +114,7 @@ export const List = () => {
       mainState.subtitles.map((item, i) => (
         li({
           class: !!item.disabled && 'disabled',
-          onclick: (e) => {
+          onclick: (/** @type {Event} */e) => {
             toggleItem(item.disabled, i)
           }
         },
