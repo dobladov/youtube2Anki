@@ -1,5 +1,6 @@
 import { state as mainState } from '../popup.js'
 import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
+import { getEnabledSubtitles } from '../utils.js'
 
 const styling = css`
   .container  {
@@ -125,7 +126,7 @@ export const List = () => {
               mainState.view = 'export'
             }
           },
-      `Export ${mainState.subtitles.filter(item => !item.disabled).length} cards`
+      `Export ${getEnabledSubtitles(mainState.subtitles).length} cards`
         )
         : text({}, '⚠️ Select at least 1 card')
     )

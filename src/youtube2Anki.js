@@ -46,7 +46,7 @@ const download = (filename, text) => {
  * Crawl the subtitles frm the YouTube transcript
  *
  * @param {HTMLElement[]} cues
- * @returns {Record<string, string>}
+ * @returns {Record<string, string>[]}
  */
 const getSubtitles = (cues) => {
   return cues.map((cue, i) => {

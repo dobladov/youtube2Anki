@@ -1,6 +1,7 @@
 import { state as mainState } from '../popup.js'
 import { div, css, h2, button, p } from '../skruv/html.js'
 import { ExportAnki } from './ExportAnki.js'
+import { getEnabledSubtitles } from '../utils.js'
 
 const styling = css`
   .container {
@@ -40,7 +41,7 @@ export const Export = () => div(
           {
             type: 'download',
             title: mainState.title,
-            subtitles: mainState.subtitles.filter(item => !item.disabled)
+            subtitles: getEnabledSubtitles(mainState.subtitles, true)
           }
         )
       }

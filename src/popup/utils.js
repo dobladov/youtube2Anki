@@ -17,3 +17,22 @@ export const sendNotification = (title, message, callback) => {
     callback && callback()
   })
 }
+
+/**
+ * Gives only the subtitles that are enabled
+ *
+ * @param {Record<string, string>[]} subtitles
+ * @param {boolean} [clean]
+ * @returns {Record<string, string>[]}
+ */
+export const getEnabledSubtitles = (subtitles, clean) => {
+  const enabledSubtitles = subtitles.filter(item => !item.disabled)
+  if (clean) {
+    return enabledSubtitles.map(subtitle => {
+      delete subtitle.disabled
+      return subtitle
+    })
+  } else {
+    return enabledSubtitles
+  }
+}

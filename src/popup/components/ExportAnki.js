@@ -1,6 +1,6 @@
 import { state as mainState } from '../popup.js'
 import { div, h2, button, p, text, a, datalist, form, input, option, br } from '../skruv/html.js'
-import { sendNotification } from '../utils.js'
+import { sendNotification, getEnabledSubtitles } from '../utils.js'
 
 const scheme = 'http'
 const host = 'localhost'
@@ -12,7 +12,7 @@ const port = 8765
  * @param {Object} subtitles
  * @param {string} deck
  * @param {string} model
- * @returns {Record<string, string>}
+ * @returns {Record<string, string>[]}
  */
 const getNotes = (subtitles, deck, model) => (
   subtitles.map(subtitle => (
@@ -174,7 +174,7 @@ const createModel = async () => {
 /**
  * Adds the given notes to the deck
  *
- * @param {Record<string, string>} notes
+ * @param {Record<string, string>[]} notes
  * @param {string} deckName
  */
 const addNotes = async (notes, deckName) => {
@@ -234,13 +234,15 @@ export const ExportAnki = () => div(
             const deckName = formData.get('deckName')
 
             try {
+              const subtitles = getEnabledSubtitles(mainState.subtitles, true)
+
               await createDeck(deckName)
               await createModel()
-              await addNotes(mainState.subtitles, deckName)
+              await addNotes(subtitles, deckName)
 
               sendNotification(
-                '✅ Success adding the cards',
-                'Check Anki to review them',
+                '✅ Success',
+                `Added ${subtitles.length} new cards`,
                 () => window.close()
               )
             } catch (error) {
