@@ -1,10 +1,11 @@
 {
   "name": "youtube2anki",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "[![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/) [![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi) [![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE) [![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.me/dobladov)",
   "main": "index.js",
   "scripts": {
-    "test": "eslint ."
+    "test": "eslint .",
+    "build": "npx web-ext build -s src/"
   },
   "repository": {
     "type": "git",
