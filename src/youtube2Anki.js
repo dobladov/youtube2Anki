@@ -108,7 +108,7 @@ chrome.runtime.onMessage.addListener(
       const cues = [...document.querySelectorAll('.cue-group')]
 
       if (cues.length) {
-        const title = document.querySelector('h1').firstElementChild.innerText
+        const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
         const subtitles = getSubtitles(cues)
         sendResponse({ title, subtitles })
       } else {
