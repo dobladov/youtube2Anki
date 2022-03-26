@@ -43,20 +43,20 @@ const download = (filename, text) => {
 }
 
 /**
- * Crawl the subtitles frm the YouTube transcript
+ * Crawl the subtitles from the YouTube transcript
  *
  * @param {HTMLElement[]} cues
  * @returns {Object}
  */
 const getSubtitles = (cues) => {
   return cues.map((cue, i) => {
-    const time = cue.querySelector('.cue-group-start-offset').innerText
+    const time = cue.querySelector('.segment-timestamp').innerText
     const nextTime = (cues[i + 1] &&
-      cues[i + 1].querySelector('.cue-group-start-offset').innerText
+      cues[i + 1].querySelector('.segment-timestamp').innerText
     ) || null
-    const text = cue.querySelector('.cue').innerText
-    const prevText = (cues[i - 1] && cues[i - 1].querySelector('.cue').innerText) || null
-    const nextText = (cues[i + 1] && cues[i + 1].querySelector('.cue').innerText) || null
+    const text = cue.querySelector('.segment-text').innerText
+    const prevText = (cues[i - 1] && cues[i - 1].querySelector('.segment-text').innerText) || null
+    const nextText = (cues[i + 1] && cues[i + 1].querySelector('.segment-text').innerText) || null
 
     return {
       time,
@@ -105,7 +105,7 @@ chrome.runtime.onMessage.addListener(
       // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
       // menus[menus.length - 1].click()
 
-      const cues = [...document.querySelectorAll('.cue-group')]
+      const cues = [...document.querySelectorAll('.segment')]
 
       if (cues.length) {
         const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
