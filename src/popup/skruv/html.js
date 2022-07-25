@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const h = (nodeName, attributes = {}, ...childNodes) => ({ nodeName, attributes, childNodes })
 
 // HTML

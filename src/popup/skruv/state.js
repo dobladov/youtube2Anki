@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export const createState = (stateObj) => {
   const Handler = class Handler {
     constructor (name) {

@@ -1,4 +1,5 @@
 /* global HTMLDocument HTMLElement SVGElement HTMLOptionElement HTMLInputElement HTMLButtonElement HTMLTextAreaElement ShadowRoot Text CustomEvent */
+// @ts-nocheck
 
 /**
  * @typedef Vnode
