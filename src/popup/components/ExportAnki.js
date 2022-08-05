@@ -10,10 +10,9 @@ const port = 8765
 /**
  * Format the subtitles for Anki
  *
- * @param {Record<string, string | boolean>[]} subtitles
+ * @param {Record<string, boolean>[]} subtitles
  * @param {string} deck
  * @param {string} model
- * @returns {Object[]}
  */
 const getNotes = (subtitles, deck, model) => (
   subtitles.map(subtitle => (
@@ -64,7 +63,7 @@ const initDecks = async (title) => {
 
     mainState.deckNames = decks.filter(Boolean)
   } catch (error) {
-    console.log(error)
+    console.warn(error)
     mainState.error = {
       message: '⚠️ Is not possible to connect with Anki, make sure is running'
     }
@@ -174,12 +173,10 @@ const createModel = async () => {
 /**
  * Adds the given notes to the deck
  *
- * @param {Record<string, string | boolean>[]} notes
+ * @param {Record<string, boolean>[]} notes
  * @param {string} deckName
  */
 const addNotes = async (notes, deckName) => {
-  console.log('add notes')
-
   const addNotesResponse = await fetch(`${scheme}://${host}:${port}`,
     {
       method: 'POST',
@@ -247,9 +244,10 @@ export const ExportAnki = () => div(
                 () => window.close()
               )
             } catch (error) {
-              console.log(error)
+              console.error(error)
               sendNotification(
                 '⚠️ Error creating the cards',
+                // @ts-expect-error
                 error.message
               )
             }
