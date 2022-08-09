@@ -56,11 +56,11 @@ const styling = css`
 /**
  * Toggle the item between enabled and disabled
  *
- * @param {boolean} disabled
  * @param {number} index
  */
-const toggleItem = (disabled, index) => {
-  mainState.subtitles[index].disabled = !disabled
+const toggleItem = (index) => {
+  const currentValue = mainState.subtitles[index].disabled
+  mainState.subtitles[index].disabled = !currentValue
 }
 
 /**
@@ -84,7 +84,8 @@ const setRandom = () => {
 }
 
 export const List = () => {
-  const enabledCards = mainState.subtitles.filter(item => !item.disabled).length
+  // const enabledCards = mainState.subtitles.filter(item => !item.disabled).length
+  const enabledCards = getEnabledSubtitles(mainState.subtitles).length
 
   return div(
     {
@@ -114,8 +115,8 @@ export const List = () => {
       mainState.subtitles.map((item, i) => (
         li({
           class: !!item.disabled && 'disabled',
-          onclick: (/** @type {Event} */e) => {
-            toggleItem(item.disabled, i)
+          onclick: () => {
+            toggleItem(i)
           }
         },
         div({},
@@ -143,7 +144,7 @@ export const List = () => {
               mainState.view = 'export'
             }
           },
-      `Export ${getEnabledSubtitles(mainState.subtitles).length} cards`
+      `Export ${enabledCards} cards`
         )
         : text({}, '⚠️ Select at least 1 card')
     )

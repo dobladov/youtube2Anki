@@ -13,7 +13,7 @@ const enableDisableTab = (id, url) => {
   }
 }
 
-chrome.tabs.onActivated.addListener((tab) => {
+chrome.tabs.onActivated.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const [activeTab] = tabs
     const { url, id } = activeTab

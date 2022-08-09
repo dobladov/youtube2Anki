@@ -43,7 +43,7 @@ export const Export = () => div(
           {
             type: 'download',
             title: mainState.title,
-            subtitles: getEnabledSubtitles(mainState.subtitles, true)
+            subtitles: getEnabledSubtitles(mainState.subtitles)
           }
         )
       }

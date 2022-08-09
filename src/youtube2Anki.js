@@ -1,26 +1,21 @@
 /**
- * Returns the given milliseconds in seconds
+ * Returns the given time string in seconds
  *
- * @param {string} ms amount of milliseconds
- * @returns {number | undefined}
+ * @param {string} time
  */
-const toSeconds = (ms) => {
-  if (ms) {
-    const a = ms.split(':')
-    return (+a[0] * 60) + (+a[1])
-  }
+const toSeconds = (time) => {
+  const [minutes, seconds] = time.split(':')
+  return (+minutes * 60) + (+seconds)
 }
 
 /**
  * Transforms the given object to CSV
  *
- * @param {Object} objArray
- * @returns {string}
+ * @param {Subtitle[]} subtitles
  */
-const toCSV = (objArray) => {
-  const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
+const toCSV = (subtitles) => {
   const str = ''
-  return array.reduce((str, next) => {
+  return [...subtitles].reduce((str, next) => {
     str += `${Object.values(next).map(value => `"${value}"`).join(',')}` + '\r\n'
     return str
   }, str)
@@ -45,18 +40,22 @@ const download = (filename, text) => {
 /**
  * Crawl the subtitles from the YouTube transcript
  *
- * @param {HTMLElement[]} cues
- * @returns {Object}
+ * @param {Element[]} cues
+ * @param {string} title
  */
-const getSubtitles = (cues) => {
+const getSubtitles = (cues, title) => {
+  const id = getID(window.location.href)
+
   return cues.map((cue, i) => {
-    const time = cue.querySelector('.segment-timestamp').innerText
+    const time = /** @type {HTMLElement} */(cue.querySelector('.segment-timestamp')).innerText
     const nextTime = (cues[i + 1] &&
-      cues[i + 1].querySelector('.segment-timestamp').innerText
+    /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-timestamp')).innerText
     ) || null
-    const text = cue.querySelector('.segment-text').innerText
-    const prevText = (cues[i - 1] && cues[i - 1].querySelector('.segment-text').innerText) || null
-    const nextText = (cues[i + 1] && cues[i + 1].querySelector('.segment-text').innerText) || null
+    const text = /** @type {HTMLElement} */(cue.querySelector('.segment-text')).innerText
+    const prevText = (cues[i - 1] && /** @type {HTMLElement} */(cues[i - 1].querySelector('.segment-text')).innerText) || null
+    const nextText = (cues[i + 1] && /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-text')).innerText) || null
+    const endSeconds = nextTime ? toSeconds(nextTime) + 1 : null
+    const hash = (Math.random() + 1).toString(36).substring(2)
 
     return {
       time,
@@ -64,10 +63,11 @@ const getSubtitles = (cues) => {
       text,
       prevText,
       nextText,
-      id: getID(window.location.href),
+      id,
       startSeconds: toSeconds(time),
-      endSeconds: toSeconds(nextTime) && (toSeconds(nextTime) + 1),
-      title: document.querySelector('h1').firstChild.innerText
+      endSeconds,
+      title,
+      hash
     }
   })
 }
@@ -76,50 +76,47 @@ const getSubtitles = (cues) => {
  * Extracts and returns the id of a YouTube url
  *
  * @param {string} url
- * @returns {?string}
  */
 const getID = (url) => {
-  let ID = ''
-  url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
-  if (url[2] !== undefined) {
-    ID = url[2].split(/[^0-9a-z_-]/i)
-    ID = ID[0]
-  } else {
-    ID = url
-  }
-  return ID
+  const match = url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)(?<id>[^#&?]*).*/)
+  return match?.groups?.id
 }
 
 /**
  * Listen to messages from popup
  */
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    const { type } = request
+chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+  const { type } = request
 
-    // Obtains the subtitles from the transcript
-    if (type === 'getSubtitles') {
-      // // Attempt to open transcripts (incomplete)
-      // const btn = document.querySelector('.dropdown-trigger button')
-      // btn.click()
-      // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
-      // menus[menus.length - 1].click()
+  // Obtains the subtitles from the transcript
+  if (type === 'getSubtitles') {
+    // // Attempt to open transcripts (incomplete)
+    // const btn = document.querySelector('.dropdown-trigger button')
+    // btn.click()
+    // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
+    // menus[menus.length - 1].click()
 
-      const cues = [...document.querySelectorAll('.segment')]
+    const cues = [...document.querySelectorAll('.segment')]
 
-      if (cues.length) {
-        const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
-        const subtitles = getSubtitles(cues)
-        sendResponse({ title, subtitles })
-      } else {
-        sendResponse({ subtitles: null, title: null })
-      }
-    }
-
-    if (type === 'download') {
-      const { title, subtitles } = request
-      const csv = toCSV(subtitles)
-      download(`${title}.csv`, csv)
+    if (cues.length) {
+      const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
+      const subtitles = getSubtitles(cues, title)
+      // TODO: Add proxy to save subtitles on save in the sessionStorage
+      sendResponse({ title, subtitles })
+    } else {
+      sendResponse({ subtitles: null, title: null })
     }
   }
-)
+
+  if (type === 'download') {
+    /** @type {{title: string, subtitles: Subtitle[]}} */
+    const { title, subtitles } = request
+    const cleanSubtitles = subtitles.map(({ disabled, ...rest }) => rest)
+    const csv = toCSV(cleanSubtitles)
+    download(`${title}.csv`, csv)
+  }
+})
+
+/**
+ * @typedef {import('./interfaces').Subtitle} Subtitle
+ */

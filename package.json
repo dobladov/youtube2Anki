@@ -4,7 +4,9 @@
   "description": "[![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/) [![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi) [![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE) [![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.me/dobladov)",
   "main": "index.js",
   "scripts": {
-    "test": "eslint .",
+    "test": "npm run lint && npm run types",
+    "lint": "eslint .",
+    "types": "tsc",
     "build": "npx web-ext build -s src/"
   },
   "repository": {
@@ -21,10 +23,12 @@
   },
   "homepage": "https://github.com/dobladov/youtube2Anki#readme",
   "devDependencies": {
-    "eslint": "8.20.0",
+    "@types/chrome": "0.0.193",
+    "eslint": "8.21.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "6.0.0"
+    "eslint-plugin-promise": "6.0.0",
+    "typescript": "4.7.4"
   }
 }

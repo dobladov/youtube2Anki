@@ -1,4 +1,4 @@
-import { div, h2, button, p, text, a, datalist, form, input, option, br } from '../skruv/html.js'
+import { div, h2, button, p, text, a, datalist, form, input, option, br, label } from '../skruv/html.js'
 
 import { state as mainState } from '../state.js'
 import { sendNotification, getEnabledSubtitles } from '../utils.js'
@@ -10,10 +10,9 @@ const port = 8765
 /**
  * Format the subtitles for Anki
  *
- * @param {Record<string, string | boolean>[]} subtitles
+ * @param {Subtitle[]} subtitles
  * @param {string} deck
  * @param {string} model
- * @returns {Object[]}
  */
 const getNotes = (subtitles, deck, model) => (
   subtitles.map(subtitle => (
@@ -29,7 +28,8 @@ const getNotes = (subtitles, deck, model) => (
         id: subtitle.id,
         startSeconds: (subtitle.startSeconds && subtitle.startSeconds.toString()) || '',
         endSeconds: (subtitle.endSeconds && subtitle.endSeconds.toString()) || '',
-        title: subtitle.title
+        title: subtitle.title,
+        hash: subtitle.hash
       },
       tags: [],
       options: {
@@ -64,7 +64,7 @@ const initDecks = async (title) => {
 
     mainState.deckNames = decks.filter(Boolean)
   } catch (error) {
-    console.log(error)
+    console.warn(error)
     mainState.error = {
       message: '⚠️ Is not possible to connect with Anki, make sure is running'
     }
@@ -105,7 +105,7 @@ const createModel = async () => {
         action: 'createModel',
         version: 6,
         params: {
-          modelName: 'Youtube2Anki',
+          modelName: 'Youtube2AnkiV2',
           inOrderFields: [
             'time',
             'nextTime',
@@ -115,7 +115,8 @@ const createModel = async () => {
             'id',
             'startSeconds',
             'endSeconds',
-            'title'
+            'title',
+            'hash'
           ],
           css: `
               .card {
@@ -174,12 +175,10 @@ const createModel = async () => {
 /**
  * Adds the given notes to the deck
  *
- * @param {Record<string, string | boolean>[]} notes
+ * @param {Subtitle[]} notes
  * @param {string} deckName
  */
 const addNotes = async (notes, deckName) => {
-  console.log('add notes')
-
   const addNotesResponse = await fetch(`${scheme}://${host}:${port}`,
     {
       method: 'POST',
@@ -187,7 +186,7 @@ const addNotes = async (notes, deckName) => {
         action: 'addNotes',
         version: 6,
         params: {
-          notes: getNotes(notes, deckName, 'Youtube2Anki')
+          notes: getNotes(notes, deckName, 'Youtube2AnkiV2')
         }
       })
     }
@@ -235,7 +234,7 @@ export const ExportAnki = () => div(
             const deckName = /** @type {string} */(formData.get('deckName'))
 
             try {
-              const subtitles = getEnabledSubtitles(mainState.subtitles, true)
+              const subtitles = getEnabledSubtitles(mainState.subtitles)
 
               await createDeck(deckName)
               await createModel()
@@ -247,19 +246,21 @@ export const ExportAnki = () => div(
                 () => window.close()
               )
             } catch (error) {
-              console.log(error)
+              console.error(error)
               sendNotification(
                 '⚠️ Error creating the cards',
+                // @ts-expect-error
                 error.message
               )
             }
           }
         },
+        label({ for: 'deckName' }, 'Deck Name'),
         input({
+          id: 'deckName',
           name: 'deckName',
           type: 'text',
           required: true,
-          placeholder: 'Deck Name',
           list: 'deckList',
           value: mainState.title
         }),
@@ -276,3 +277,7 @@ export const ExportAnki = () => div(
         }, 'Send')
       )
 )
+
+/**
+ * @typedef {import('../../interfaces').Subtitle} Subtitle
+ */
