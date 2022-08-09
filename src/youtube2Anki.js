@@ -88,18 +88,10 @@ const getSubtitles = (cues, title) => {
  * Extracts and returns the id of a YouTube url
  *
  * @param {string} url
- * @returns {?string}
  */
 const getID = (url) => {
-  let ID = ''
-  url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
-  if (url[2] !== undefined) {
-    ID = url[2].split(/[^0-9a-z_-]/i)
-    ID = ID[0]
-  } else {
-    ID = url
-  }
-  return ID
+  const match = url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)(?<id>[^#&?]*).*/)
+  return match?.groups?.id
 }
 
 /**
