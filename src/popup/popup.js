@@ -3,6 +3,7 @@ import { body } from './skruv/html.js'
 import { renderNode } from './skruv/vDOM.js'
 
 import { state } from './state.js'
+import { About } from './components/About.js'
 import { Export } from './components/Export.js'
 import { List } from './components/List.js'
 import { Instructions } from './components/Instructions.js'
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         state.view === 'loading' && Loading,
         state.view === 'list' && state.subtitles && List,
         state.view === 'export' && Export,
-        state.view === 'instructions' && Instructions
+        state.view === 'instructions' && Instructions,
+        About
         ),
         document.body
       )

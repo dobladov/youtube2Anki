@@ -23,6 +23,11 @@ a {
   text-decoration: none;
 }
 
+a:hover,
+a:focus {
+  color: var(--action-hover-color);
+}
+
 body {
   min-width: 400px;
   background-color: var(--main-bg-color);
@@ -99,4 +104,19 @@ input[type=text]:focus {
 
 .hide {
   display: none;
+}
+
+.about {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.aboutItem {
+  display: block;
+  flex: 1;
 }
