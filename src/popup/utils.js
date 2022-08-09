@@ -21,18 +21,12 @@ export const sendNotification = (title, message, callback) => {
 /**
  * Gives only the subtitles that are enabled
  *
- * @param {Record<string, string | boolean>[]} subtitles
- * @param {boolean} [clean]
- * @returns {Record<string, string | boolean>[]}
+ * @param {Subtitle[]} subtitles
  */
-export const getEnabledSubtitles = (subtitles, clean) => {
-  const enabledSubtitles = subtitles.filter(item => !item.disabled)
-  if (clean) {
-    return enabledSubtitles.map(subtitle => {
-      delete subtitle.disabled
-      return subtitle
-    })
-  } else {
-    return enabledSubtitles
-  }
+export const getEnabledSubtitles = (subtitles) => {
+  return subtitles.filter(item => !item.disabled)
 }
+
+/**
+ * @typedef {import('../interfaces').Subtitle} Subtitle
+ */

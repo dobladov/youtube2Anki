@@ -10,7 +10,7 @@ const port = 8765
 /**
  * Format the subtitles for Anki
  *
- * @param {Record<string, boolean>[]} subtitles
+ * @param {Subtitle[]} subtitles
  * @param {string} deck
  * @param {string} model
  */
@@ -173,7 +173,7 @@ const createModel = async () => {
 /**
  * Adds the given notes to the deck
  *
- * @param {Record<string, boolean>[]} notes
+ * @param {Subtitle[]} notes
  * @param {string} deckName
  */
 const addNotes = async (notes, deckName) => {
@@ -232,7 +232,7 @@ export const ExportAnki = () => div(
             const deckName = /** @type {string} */(formData.get('deckName'))
 
             try {
-              const subtitles = getEnabledSubtitles(mainState.subtitles, true)
+              const subtitles = getEnabledSubtitles(mainState.subtitles)
 
               await createDeck(deckName)
               await createModel()
@@ -274,3 +274,7 @@ export const ExportAnki = () => div(
         }, 'Send')
       )
 )
+
+/**
+ * @typedef {import('../../interfaces').Subtitle} Subtitle
+ */

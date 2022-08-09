@@ -1,7 +1,7 @@
 /**
  * Returns the given milliseconds in seconds
  *
- * @param {string} ms amount of milliseconds
+ * @param {string} [ms] amount of milliseconds
  * @returns {number | undefined}
  */
 const toSeconds = (ms) => {
@@ -14,13 +14,12 @@ const toSeconds = (ms) => {
 /**
  * Transforms the given object to CSV
  *
- * @param {Object} objArray
- * @returns {string}
+ * @param {Subtitle[]} subtitles
  */
-const toCSV = (objArray) => {
-  const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
+const toCSV = (subtitles) => {
+  // const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
   const str = ''
-  return array.reduce((str, next) => {
+  return [...subtitles].reduce((str, next) => {
     str += `${Object.values(next).map(value => `"${value}"`).join(',')}` + '\r\n'
     return str
   }, str)
@@ -43,12 +42,25 @@ const download = (filename, text) => {
 }
 
 /**
+ * @param {string} nextTime
+ */
+const getEndSeconds = (nextTime) => {
+  const timeInSeconds = toSeconds(nextTime)
+
+  if (timeInSeconds) {
+    return timeInSeconds + 1
+  }
+
+  return null
+}
+
+/**
  * Crawl the subtitles from the YouTube transcript
  *
- * @param {HTMLElement[]} cues
- * @returns {Object}
+ * @param {Element[]} cues
+ * @param {string} title
  */
-const getSubtitles = (cues) => {
+const getSubtitles = (cues, title) => {
   return cues.map((cue, i) => {
     const time = cue.querySelector('.segment-timestamp').innerText
     const nextTime = (cues[i + 1] &&
@@ -67,7 +79,7 @@ const getSubtitles = (cues) => {
       id: getID(window.location.href),
       startSeconds: toSeconds(time),
       endSeconds: toSeconds(nextTime) && (toSeconds(nextTime) + 1),
-      title: document.querySelector('h1').firstChild.innerText
+      title
     }
   })
 }
@@ -93,33 +105,37 @@ const getID = (url) => {
 /**
  * Listen to messages from popup
  */
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    const { type } = request
+chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+  const { type } = request
 
-    // Obtains the subtitles from the transcript
-    if (type === 'getSubtitles') {
-      // // Attempt to open transcripts (incomplete)
-      // const btn = document.querySelector('.dropdown-trigger button')
-      // btn.click()
-      // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
-      // menus[menus.length - 1].click()
+  // Obtains the subtitles from the transcript
+  if (type === 'getSubtitles') {
+    // // Attempt to open transcripts (incomplete)
+    // const btn = document.querySelector('.dropdown-trigger button')
+    // btn.click()
+    // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
+    // menus[menus.length - 1].click()
 
-      const cues = [...document.querySelectorAll('.segment')]
+    const cues = [...document.querySelectorAll('.segment')]
 
-      if (cues.length) {
-        const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
-        const subtitles = getSubtitles(cues)
-        sendResponse({ title, subtitles })
-      } else {
-        sendResponse({ subtitles: null, title: null })
-      }
-    }
-
-    if (type === 'download') {
-      const { title, subtitles } = request
-      const csv = toCSV(subtitles)
-      download(`${title}.csv`, csv)
+    if (cues.length) {
+      const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
+      const subtitles = getSubtitles(cues, title)
+      sendResponse({ title, subtitles })
+    } else {
+      sendResponse({ subtitles: null, title: null })
     }
   }
-)
+
+  if (type === 'download') {
+    /** @type {{title: string, subtitles: Subtitle[]}} */
+    const { title, subtitles } = request
+    const cleanSubtitles = subtitles.map(({ disabled, ...rest }) => rest)
+    const csv = toCSV(cleanSubtitles)
+    download(`${title}.csv`, csv)
+  }
+})
+
+/**
+ * @typedef {import('./interfaces').Subtitle} Subtitle
+ */
