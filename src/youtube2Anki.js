@@ -14,7 +14,6 @@ const toSeconds = (time) => {
  * @param {Subtitle[]} subtitles
  */
 const toCSV = (subtitles) => {
-  // const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray
   const str = ''
   return [...subtitles].reduce((str, next) => {
     str += `${Object.values(next).map(value => `"${value}"`).join(',')}` + '\r\n'
@@ -102,6 +101,7 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     if (cues.length) {
       const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
       const subtitles = getSubtitles(cues, title)
+      // TODO: Add proxy to save subtitles on save in the sessionStorage
       sendResponse({ title, subtitles })
     } else {
       sendResponse({ subtitles: null, title: null })
