@@ -105,7 +105,7 @@ const createModel = async () => {
         action: 'createModel',
         version: 6,
         params: {
-          modelName: 'Youtube2Anki',
+          modelName: 'Youtube2AnkiV2',
           inOrderFields: [
             'time',
             'nextTime',
@@ -186,7 +186,7 @@ const addNotes = async (notes, deckName) => {
         action: 'addNotes',
         version: 6,
         params: {
-          notes: getNotes(notes, deckName, 'Youtube2Anki')
+          notes: getNotes(notes, deckName, 'Youtube2AnkiV2')
         }
       })
     }
