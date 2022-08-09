@@ -1,14 +1,11 @@
 /**
- * Returns the given milliseconds in seconds
+ * Returns the given time string in seconds
  *
- * @param {string} [ms] amount of milliseconds
- * @returns {number | undefined}
+ * @param {string} time
  */
-const toSeconds = (ms) => {
-  if (ms) {
-    const a = ms.split(':')
-    return (+a[0] * 60) + (+a[1])
-  }
+const toSeconds = (time) => {
+  const [minutes, seconds] = time.split(':')
+  return (+minutes * 60) + (+seconds)
 }
 
 /**
@@ -42,33 +39,24 @@ const download = (filename, text) => {
 }
 
 /**
- * @param {string} nextTime
- */
-const getEndSeconds = (nextTime) => {
-  const timeInSeconds = toSeconds(nextTime)
-
-  if (timeInSeconds) {
-    return timeInSeconds + 1
-  }
-
-  return null
-}
-
-/**
  * Crawl the subtitles from the YouTube transcript
  *
  * @param {Element[]} cues
  * @param {string} title
  */
 const getSubtitles = (cues, title) => {
+  const id = getID(window.location.href)
+
   return cues.map((cue, i) => {
-    const time = cue.querySelector('.segment-timestamp').innerText
+    const time = /** @type {HTMLElement} */(cue.querySelector('.segment-timestamp')).innerText
     const nextTime = (cues[i + 1] &&
-      cues[i + 1].querySelector('.segment-timestamp').innerText
+    /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-timestamp')).innerText
     ) || null
-    const text = cue.querySelector('.segment-text').innerText
-    const prevText = (cues[i - 1] && cues[i - 1].querySelector('.segment-text').innerText) || null
-    const nextText = (cues[i + 1] && cues[i + 1].querySelector('.segment-text').innerText) || null
+    const text = /** @type {HTMLElement} */(cue.querySelector('.segment-text')).innerText
+    const prevText = (cues[i - 1] && /** @type {HTMLElement} */(cues[i - 1].querySelector('.segment-text')).innerText) || null
+    const nextText = (cues[i + 1] && /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-text')).innerText) || null
+    const endSeconds = nextTime ? toSeconds(nextTime) + 1 : null
+    const hash = (Math.random() + 1).toString(36).substring(2)
 
     return {
       time,
@@ -76,10 +64,11 @@ const getSubtitles = (cues, title) => {
       text,
       prevText,
       nextText,
-      id: getID(window.location.href),
+      id,
       startSeconds: toSeconds(time),
-      endSeconds: toSeconds(nextTime) && (toSeconds(nextTime) + 1),
-      title
+      endSeconds,
+      title,
+      hash
     }
   })
 }

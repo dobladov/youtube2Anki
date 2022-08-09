@@ -1,4 +1,4 @@
-import { div, h2, button, p, text, a, datalist, form, input, option, br } from '../skruv/html.js'
+import { div, h2, button, p, text, a, datalist, form, input, option, br, label } from '../skruv/html.js'
 
 import { state as mainState } from '../state.js'
 import { sendNotification, getEnabledSubtitles } from '../utils.js'
@@ -28,7 +28,8 @@ const getNotes = (subtitles, deck, model) => (
         id: subtitle.id,
         startSeconds: (subtitle.startSeconds && subtitle.startSeconds.toString()) || '',
         endSeconds: (subtitle.endSeconds && subtitle.endSeconds.toString()) || '',
-        title: subtitle.title
+        title: subtitle.title,
+        hash: subtitle.hash
       },
       tags: [],
       options: {
@@ -114,7 +115,8 @@ const createModel = async () => {
             'id',
             'startSeconds',
             'endSeconds',
-            'title'
+            'title',
+            'hash'
           ],
           css: `
               .card {
@@ -253,11 +255,12 @@ export const ExportAnki = () => div(
             }
           }
         },
+        label({ for: 'deckName' }, 'Deck Name'),
         input({
+          id: 'deckName',
           name: 'deckName',
           type: 'text',
           required: true,
-          placeholder: 'Deck Name',
           list: 'deckList',
           value: mainState.title
         }),
