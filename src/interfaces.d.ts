@@ -9,4 +9,5 @@ export interface Subtitle {
     endSeconds: number;
     title: string;
     disabled?: boolean;
+    hash: string;
 }
