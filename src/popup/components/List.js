@@ -56,11 +56,11 @@ const styling = css`
 /**
  * Toggle the item between enabled and disabled
  *
- * @param {boolean} disabled
  * @param {number} index
  */
-const toggleItem = (disabled, index) => {
-  mainState.subtitles[index].disabled = !disabled
+const toggleItem = (index) => {
+  const currentValue = mainState.subtitles[index].disabled
+  mainState.subtitles[index].disabled = !currentValue
 }
 
 /**
@@ -116,7 +116,7 @@ export const List = () => {
         li({
           class: !!item.disabled && 'disabled',
           onclick: () => {
-            toggleItem(item.disabled, i)
+            toggleItem(i)
           }
         },
         div({},
