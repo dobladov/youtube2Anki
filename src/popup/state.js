@@ -7,8 +7,7 @@ export const state = createState({
   subtitles: null,
   deckNames: null,
   error: {},
-  activeTabId: null,
-  storageId: null
+  activeTabId: null
 })
 
 /**
@@ -19,10 +18,7 @@ export const state = createState({
  * @prop {Subtitle[]} subtitles
  * @prop {string[]} deckNames
  * @prop {{message?: string}} error
- * @prop {string} storageId
  */
-
-// Define subtitles here
 
 /**
  * @typedef {import('../interfaces').Subtitle} Subtitle

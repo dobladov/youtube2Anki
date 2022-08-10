@@ -10,52 +10,55 @@ import { Instructions } from './components/Instructions.js'
 import { Loading } from './components/Loading.js'
 import { getId } from './utils.js'
 
+/**
+ * @param {chrome.tabs.Tab} tab
+ */
+const getTabInfo = (tab) => {
+  const { id, url, title } = tab
+
+  const youTubeId = getId(String(url))
+  const storageId = `youTube2AnkiSubtitles-${youTubeId}`
+  const formattedTitle = String(title).replace('- YouTube', '').trim() || 'Untitled'
+  return { id, title: formattedTitle, storageId }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     // @ts-expect-error Skruv initialization
     // eslint-disable-next-line no-unused-vars
     for await (const stateItem of state) {
-      // Store subtitles in storage on changes
-      const subs = [...stateItem?.subtitles?.values() || []].map(v => Object.assign({}, Object.assign({}, v)))
-      if (state.storageId && Boolean(subs.length)) {
-        const storageId = `youtube2AnkiSubtitles-${state.storageId}`
-        localStorage.setItem(storageId, JSON.stringify(subs))
-      }
+      chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+        const { id, storageId } = getTabInfo(tabs[0])
 
-      // Delete storage with a value older than x
+        // Get subtitles from storage proxy
+        const stateSubtitles = [...stateItem?.subtitles?.values() || []].map(v => Object.assign({}, Object.assign({}, v)))
+        if (id && storageId && Boolean(stateSubtitles.length)) {
+          chrome.tabs.sendMessage(id, { type: 'storeSubtitles', storageId, subtitles: stateSubtitles })
+        }
+      })
+
       renderNode(
         body({
           oncreate: () => {
             // Connect to the page script and request the subtitles
             chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-              const { id, url, title } = tabs[0]
-
-              // Store the Id and
-              const youTubeId = getId(String(url))
-              state.storageId = String(youTubeId)
-              state.title = String(title).replace('- YouTube', '').trim() || 'Untitled'
+              const { id, storageId, title } = getTabInfo(tabs[0])
+              state.title = title
 
               if (id) {
+                // Store subtitles in storage on changes
                 state.activeTabId = id
-                // Get subtitles form the storage
-                const storedSubtitles = JSON.parse(localStorage.getItem(state.storageId) || '[]')
+                chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
+                  const { subtitles } = response
 
-                if (storedSubtitles.length) {
-                  state.subtitles = storedSubtitles
-                  state.view = 'list'
-                } else {
-                  chrome.tabs.sendMessage(id, { type: 'getSubtitles', title }, async (response) => {
-                    const { subtitles } = response
-
-                    // If no subtitles where found, show the instructions
-                    if (subtitles) {
-                      state.subtitles = subtitles
-                      state.view = 'list'
-                    } else {
-                      state.view = 'instructions'
-                    }
-                  })
-                }
+                  // If no subtitles where found, show the instructions
+                  if (subtitles) {
+                    state.subtitles = subtitles
+                    state.view = 'list'
+                  } else {
+                    state.view = 'instructions'
+                  }
+                })
               }
             })
           }

@@ -88,24 +88,24 @@ const getId = (url) => {
 chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
   const { type } = request
 
-  // TODO
-  // if (type === 'storeSubtitles') {
-  //   const request.subtitles
-  // }
+  // Saves the subtitles on the sessionStorage
+  if (type === 'storeSubtitles') {
+    sessionStorage.setItem(request.storageId, JSON.stringify(request.subtitles))
+  }
 
   // Obtains the subtitles from the transcript
   if (type === 'getSubtitles') {
-    // // Attempt to open transcripts (incomplete)
-    // const btn = document.querySelector('.dropdown-trigger button')
-    // btn.click()
-    // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
-    // menus[menus.length - 1].click()
+    // Get subtitles form the storage
+    const storedSubtitles = JSON.parse(sessionStorage.getItem(request.storageId) || '[]')
+    if (storedSubtitles.length) {
+      sendResponse({ subtitles: storedSubtitles })
+      return
+    }
 
     const cues = [...document.querySelectorAll('.segment')]
 
     if (cues.length) {
       const subtitles = getSubtitles(cues, request.title)
-      // TODO: Add proxy to save subtitles on save in the sessionStorage
       sendResponse({ subtitles })
     } else {
       sendResponse({ subtitles: null, title: null })
