@@ -85,7 +85,7 @@ const getId = (url) => {
 /**
  * Listen to messages from popup
  */
-chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResponse) => {
   const { type } = request
 
   // Saves the subtitles on the sessionStorage
@@ -120,6 +120,14 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     download(`${title}.csv`, csv)
   }
 })
+
+/**
+ * @typedef {object} Message
+ * @prop {'getSubtitles'| 'storeSubtitles' | 'download'} type
+ * @prop {string} title
+ * @prop {string} storageId
+ * @prop {Subtitle[]} subtitles
+ */
 
 /**
  * @typedef {import('./interfaces').Subtitle} Subtitle

@@ -28,25 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // eslint-disable-next-line no-unused-vars
     for await (const stateItem of state) {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-        const { id, storageId } = getTabInfo(tabs[0])
+        const { id, storageId, title } = getTabInfo(tabs[0])
 
         // Get subtitles from storage proxy
-        const stateSubtitles = [...stateItem?.subtitles?.values() || []].map(v => Object.assign({}, Object.assign({}, v)))
+        const stateSubtitles = [...stateItem?.subtitles?.values() || []].map(v => ({ ...v }))
         if (id && storageId && Boolean(stateSubtitles.length)) {
           chrome.tabs.sendMessage(id, { type: 'storeSubtitles', storageId, subtitles: stateSubtitles })
         }
-      })
 
-      renderNode(
-        body({
-          oncreate: () => {
+        renderNode(
+          body({
+            oncreate: () => {
             // Connect to the page script and request the subtitles
-            chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-              const { id, storageId, title } = getTabInfo(tabs[0])
               state.title = title
 
               if (id) {
-                // Store subtitles in storage on changes
+              // Store subtitles in storage on changes
                 state.activeTabId = id
                 chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
                   const { subtitles } = response
@@ -60,18 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
                 })
               }
-            })
-          }
-        },
-        // Views of the extension
-        state.view === 'loading' && Loading,
-        state.view === 'list' && state.subtitles && List,
-        state.view === 'export' && Export,
-        state.view === 'instructions' && Instructions,
-        About
-        ),
-        document.body
-      )
+            }
+          },
+          // Views of the extension
+          state.view === 'loading' && Loading,
+          state.view === 'list' && state.subtitles && List,
+          state.view === 'export' && Export,
+          state.view === 'instructions' && Instructions,
+          About
+          ),
+          document.body
+        )
+      })
     }
   })()
 })
