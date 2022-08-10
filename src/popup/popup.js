@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderNode(
           body({
             oncreate: () => {
-            // Connect to the page script and request the subtitles
+              // Connect to the page script and request the subtitles
               state.title = title
 
               if (id) {

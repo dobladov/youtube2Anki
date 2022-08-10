@@ -108,7 +108,7 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
       const subtitles = getSubtitles(cues, request.title)
       sendResponse({ subtitles })
     } else {
-      sendResponse({ subtitles: null, title: null })
+      sendResponse({ subtitles: null })
     }
   }
 
