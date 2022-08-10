@@ -27,19 +27,7 @@ const styling = css`
     margin: 0;
     padding: 0;
     overflow-x: auto;
-  }
-
-  li {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--main-bg-color);
-    cursor: pointer;
-    padding: 10px;
-  }
-
-
-  li:hover {
-    background-color: var(--main-bg-color);
+    padding: 1px;
   }
 
   .text {
@@ -50,6 +38,24 @@ const styling = css`
 
   .disabled {
     text-decoration: line-through;
+  }
+
+  .listButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--main-bg-color);
+    cursor: pointer;
+    margin: 0;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    outline-color: var(--action-color)
+  }
+
+  .listButton:focus,
+  .listButton:hover {
+    background-color: var(--main-bg-color);
   }
 `
 
@@ -114,7 +120,10 @@ export const List = () => {
     ul({},
       mainState.subtitles.map((item, i) => (
         li({
-          class: !!item.disabled && 'disabled',
+          class: !!item.disabled && 'disabled'
+        },
+        button({
+          class: 'listButton',
           onclick: () => {
             toggleItem(i)
           }
@@ -130,7 +139,7 @@ export const List = () => {
         div({},
           item.nextTime
         )
-        )
+        ))
       )),
       styling
     ),
