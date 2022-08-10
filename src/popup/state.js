@@ -20,8 +20,6 @@ export const state = createState({
  * @prop {{message?: string}} error
  */
 
-// Define subtitles here
-
 /**
  * @typedef {import('../interfaces').Subtitle} Subtitle
  */

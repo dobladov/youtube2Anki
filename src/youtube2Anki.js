@@ -44,7 +44,7 @@ const download = (filename, text) => {
  * @param {string} title
  */
 const getSubtitles = (cues, title) => {
-  const id = getID(window.location.href)
+  const id = getId(window.location.href)
 
   return cues.map((cue, i) => {
     const time = /** @type {HTMLElement} */(cue.querySelector('.segment-timestamp')).innerText
@@ -77,7 +77,7 @@ const getSubtitles = (cues, title) => {
  *
  * @param {string} url
  */
-const getID = (url) => {
+const getId = (url) => {
   const match = url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)(?<id>[^#&?]*).*/)
   return match?.groups?.id
 }
@@ -85,26 +85,30 @@ const getID = (url) => {
 /**
  * Listen to messages from popup
  */
-chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResponse) => {
   const { type } = request
+
+  // Saves the subtitles on the sessionStorage
+  if (type === 'storeSubtitles') {
+    sessionStorage.setItem(request.storageId, JSON.stringify(request.subtitles))
+  }
 
   // Obtains the subtitles from the transcript
   if (type === 'getSubtitles') {
-    // // Attempt to open transcripts (incomplete)
-    // const btn = document.querySelector('.dropdown-trigger button')
-    // btn.click()
-    // const menus = document.querySelectorAll('.ytd-menu-service-item-renderer')
-    // menus[menus.length - 1].click()
+    // Get subtitles form the storage
+    const storedSubtitles = JSON.parse(sessionStorage.getItem(request.storageId) || '[]')
+    if (storedSubtitles.length) {
+      sendResponse({ subtitles: storedSubtitles })
+      return
+    }
 
     const cues = [...document.querySelectorAll('.segment')]
 
     if (cues.length) {
-      const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
-      const subtitles = getSubtitles(cues, title)
-      // TODO: Add proxy to save subtitles on save in the sessionStorage
-      sendResponse({ title, subtitles })
+      const subtitles = getSubtitles(cues, request.title)
+      sendResponse({ subtitles })
     } else {
-      sendResponse({ subtitles: null, title: null })
+      sendResponse({ subtitles: null })
     }
   }
 
@@ -116,6 +120,14 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     download(`${title}.csv`, csv)
   }
 })
+
+/**
+ * @typedef {object} Message
+ * @prop {'getSubtitles'| 'storeSubtitles' | 'download'} type
+ * @prop {string} title
+ * @prop {string} storageId
+ * @prop {Subtitle[]} subtitles
+ */
 
 /**
  * @typedef {import('./interfaces').Subtitle} Subtitle
