@@ -28,5 +28,15 @@ export const getEnabledSubtitles = (subtitles) => {
 }
 
 /**
+ * Extracts and returns the id of a YouTube url
+ *
+ * @param {string} url
+ */
+export const getId = (url) => {
+  const match = url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)(?<id>[^#&?]*).*/)
+  return match?.groups?.id
+}
+
+/**
  * @typedef {import('../interfaces').Subtitle} Subtitle
  */

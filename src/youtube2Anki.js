@@ -44,7 +44,7 @@ const download = (filename, text) => {
  * @param {string} title
  */
 const getSubtitles = (cues, title) => {
-  const id = getID(window.location.href)
+  const id = getId(window.location.href)
 
   return cues.map((cue, i) => {
     const time = /** @type {HTMLElement} */(cue.querySelector('.segment-timestamp')).innerText
@@ -77,7 +77,7 @@ const getSubtitles = (cues, title) => {
  *
  * @param {string} url
  */
-const getID = (url) => {
+const getId = (url) => {
   const match = url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)(?<id>[^#&?]*).*/)
   return match?.groups?.id
 }
@@ -87,6 +87,11 @@ const getID = (url) => {
  */
 chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
   const { type } = request
+
+  // TODO
+  // if (type === 'storeSubtitles') {
+  //   const request.subtitles
+  // }
 
   // Obtains the subtitles from the transcript
   if (type === 'getSubtitles') {
@@ -99,10 +104,9 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     const cues = [...document.querySelectorAll('.segment')]
 
     if (cues.length) {
-      const title = document.title.replace('- YouTube', '').trim() || 'Untitled'
-      const subtitles = getSubtitles(cues, title)
+      const subtitles = getSubtitles(cues, request.title)
       // TODO: Add proxy to save subtitles on save in the sessionStorage
-      sendResponse({ title, subtitles })
+      sendResponse({ subtitles })
     } else {
       sendResponse({ subtitles: null, title: null })
     }
