@@ -31,6 +31,7 @@ a:focus {
 
 body {
   min-width: 400px;
+  max-width: 450px;
   background-color: var(--main-bg-color);
   font-family: futura-pt, sans-serif,sans-serif;
   color: #3c3c3c;
@@ -108,19 +109,4 @@ input[type=text]:focus {
 
 .hide {
   display: none;
-}
-
-.about {
-  display: flex;
-  justify-content: space-around;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  padding-top: .4rem;
-  text-align: center;
-}
-
-.aboutItem {
-  display: block;
-  flex: 1;
 }

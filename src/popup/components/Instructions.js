@@ -3,7 +3,7 @@ import { div, h2, p, img, css, picture, source } from '../skruv/html.js'
 // @ts-ignore
 const style = css`
   img {
-    max-width: 450px;
+    max-width: 100%;
   }
 `
 

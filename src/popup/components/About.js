@@ -1,4 +1,23 @@
-import { div, a } from '../skruv/html.js'
+import { div, a, css } from '../skruv/html.js'
+
+// @ts-ignore
+const style = css`
+  .about {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: .4rem;
+  }
+
+  .aboutItem {
+    text-align: center;
+    display: block;
+    flex: 1;
+  }
+`
 
 export const About = () =>
   div({ class: 'about' }, [
@@ -17,4 +36,4 @@ export const About = () =>
       class: 'aboutItem',
       href: 'https://github.com/dobladov/youtube2Anki/discussions/categories/ideas'
     }, 'Suggestions')
-  ])
+  ], style)
