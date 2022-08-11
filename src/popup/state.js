@@ -7,7 +7,9 @@ export const state = createState({
   subtitles: null,
   deckNames: null,
   error: {},
-  activeTabId: null
+  activeTabId: null,
+  mergeStart: NaN,
+  mergeEnd: NaN
 })
 
 /**
@@ -18,6 +20,8 @@ export const state = createState({
  * @prop {Subtitle[]} subtitles
  * @prop {string[]} deckNames
  * @prop {{message?: string}} error
+ * @prop {number} mergeStart
+ * @prop {number} mergeEnd
  */
 
 /**

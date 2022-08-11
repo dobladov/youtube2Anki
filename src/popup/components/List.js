@@ -3,6 +3,62 @@ import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
 import { state as mainState } from '../state.js'
 import { getEnabledSubtitles } from '../utils.js'
 
+/**
+ * Gets all the cards that will be merged
+ * according to the current selection
+ */
+const getCardsToMerge = () => {
+  if (isNaN(mainState.mergeStart) || isNaN(mainState.mergeEnd)) {
+    return []
+  }
+
+  if (mainState.mergeStart <= mainState.mergeEnd) {
+    return mainState.subtitles
+      .slice(mainState.mergeStart, mainState.mergeEnd + 1)
+      .map(v => ({ ...v }))
+  }
+
+  return mainState.subtitles
+    .slice(mainState.mergeEnd, mainState.mergeStart + 1)
+    .map(v => ({ ...v }))
+}
+
+/**
+ * Generates a single card from cardsToMerge
+ * and replaces it in the subtitles state
+ *
+ * @param {Subtitle[]} cardsToMerge
+ */
+const mergeCards = (cardsToMerge) => {
+  const lastCard = cardsToMerge[cardsToMerge.length - 1]
+  const card = {
+    ...cardsToMerge[0],
+    text: cardsToMerge.map(({ text }) => text).join(' '),
+    endSeconds: lastCard.endSeconds,
+    nextTime: lastCard.nextTime,
+    nextText: lastCard.nextText
+  }
+
+  // Insert the new card in between the selection indexes
+  if (mainState.mergeStart < mainState.mergeEnd) {
+    mainState.subtitles = [
+      ...mainState.subtitles.slice(0, mainState.mergeStart),
+      card,
+      ...mainState.subtitles.slice(mainState.mergeEnd + 1, mainState.subtitles.length)
+    ]
+  } else {
+    mainState.subtitles = [
+      ...mainState.subtitles.slice(0, mainState.mergeEnd),
+      card,
+      ...mainState.subtitles.slice(mainState.mergeStart + 1, mainState.subtitles.length)
+    ]
+  }
+
+  // Reset selection
+  mainState.mergeStart = NaN
+  mainState.mergeEnd = NaN
+}
+
 // @ts-ignore
 const styling = css`
   .container  {
@@ -27,7 +83,10 @@ const styling = css`
     margin: 0;
     padding: 0;
     overflow-x: auto;
-    padding: 1px;
+  }
+  
+  li {
+    position: relative;
   }
 
   .text {
@@ -50,12 +109,47 @@ const styling = css`
     padding: 10px;
     border: none;
     background: transparent;
-    outline-color: var(--action-color)
+    outline: none;
+    transition: background .2s ease-in-out;
   }
 
-  .listButton:focus,
-  .listButton:hover {
+  .listButton:focus {
     background-color: var(--main-bg-color);
+    box-shadow: inset 0 0 0 2px var(--action-color);
+    border-radius: 4px;
+  }
+
+  .inRange {
+    background-color: var(--action-disabled-color) !important;
+    cursor: copy;
+  }
+
+  li:focus-within .floating {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .floating {
+    padding: .3rem 1rem;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 99;
+    position: absolute;
+    bottom: -0.5rem;
+  }
+
+  .left {
+    left: 0.5rem;
+  }
+
+  .right {
+    right: 0.5rem;
+  }
+
+  .hidden {
+    transition: opacity .5s ease-in-out;
+    pointer-events: none;
+    opacity: 0 !important;
   }
 `
 
@@ -92,6 +186,7 @@ const setRandom = () => {
 export const List = () => {
   // const enabledCards = mainState.subtitles.filter(item => !item.disabled).length
   const enabledCards = getEnabledSubtitles(mainState.subtitles).length
+  const cardsToMerge = getCardsToMerge()
 
   return div(
     {
@@ -123,7 +218,20 @@ export const List = () => {
           class: !!item.disabled && 'disabled'
         },
         button({
-          class: 'listButton',
+          onmouseover: (/** @type {{target: HTMLElement}}} */event) => {
+            event.target.focus()
+            // Select card for merge end if merge is started
+            if (!isNaN(mainState.mergeStart)) {
+              mainState.mergeEnd = i
+            }
+          },
+          onfocus: () => {
+            // Select card for merge with keyboard
+            if (!isNaN(mainState.mergeStart)) {
+              mainState.mergeEnd = i
+            }
+          },
+          class: `listButton${cardsToMerge.some(card => card.hash === item.hash) ? ' inRange' : ''}`,
           onclick: () => {
             toggleItem(i)
           }
@@ -138,8 +246,25 @@ export const List = () => {
         ),
         div({},
           item.nextTime
-        )
-        ))
+        )),
+        button({
+          class: 'btn floating left',
+          dataindex: i,
+          onclick: () => {
+            if (isNaN(mainState.mergeStart)) {
+              mainState.mergeStart = i
+            } else {
+              mainState.mergeStart = NaN
+              mainState.mergeEnd = NaN
+            }
+          }
+        }, isNaN(mainState.mergeStart) ? 'Merge' : 'Stop Merge'),
+        button({
+          class: `btn floating right${cardsToMerge.length > 1 ? '' : ' hidden'}`,
+          onclick: () => {
+            mergeCards(cardsToMerge)
+          }
+        }, `Merge ${cardsToMerge.length} cards`))
       )),
       styling
     ),
