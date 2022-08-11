@@ -45,13 +45,17 @@ const mergeCards = (cardsToMerge) => {
       ...mainState.subtitles.slice(0, mainState.mergeStart),
       card,
       ...mainState.subtitles.slice(mainState.mergeEnd + 1, mainState.subtitles.length)
-    ]
+    ];
+
+    /** @type {HTMLElement} */(document.querySelector(`[data-index="${mainState.mergeStart}"]`))?.scrollIntoView({ behavior: 'smooth' })
   } else {
     mainState.subtitles = [
       ...mainState.subtitles.slice(0, mainState.mergeEnd),
       card,
       ...mainState.subtitles.slice(mainState.mergeStart + 1, mainState.subtitles.length)
-    ]
+    ];
+
+    /** @type {HTMLElement} */(document.querySelector(`[data-index="${mainState.mergeEnd}"]`))?.scrollIntoView({ behavior: 'smooth' })
   }
 
   // Reset selection
@@ -231,6 +235,7 @@ export const List = () => {
               mainState.mergeEnd = i
             }
           },
+          'data-index': i,
           class: `listButton${cardsToMerge.some(card => card.hash === item.hash) ? ' inRange' : ''}`,
           onclick: () => {
             toggleItem(i)
@@ -249,7 +254,6 @@ export const List = () => {
         )),
         button({
           class: 'btn floating left',
-          dataindex: i,
           onclick: () => {
             if (isNaN(mainState.mergeStart)) {
               mainState.mergeStart = i
