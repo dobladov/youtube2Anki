@@ -34,7 +34,9 @@ body {
   background-color: var(--main-bg-color);
   font-family: futura-pt, sans-serif,sans-serif;
   color: #3c3c3c;
-  padding: 20px;
+  padding: 1rem;
+  padding-top: 1.2rem;
+  padding-bottom: 0.5rem;
   margin: 0;
 }
 
@@ -114,7 +116,7 @@ input[type=text]:focus {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  padding-top: 1rem;
+  padding-top: .4rem;
   text-align: center;
 }
 

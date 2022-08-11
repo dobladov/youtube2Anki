@@ -72,7 +72,7 @@ const styling = css`
     padding-right: 0;
     align-items: center;
     padding: 10px 0;
-    gap: 10px;
+    gap: 0.5rem;
   }
 
   .controls {
@@ -107,7 +107,6 @@ const styling = css`
     width: 100%;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--main-bg-color);
     cursor: pointer;
     margin: 0;
     padding: 10px;
@@ -121,6 +120,7 @@ const styling = css`
     background-color: var(--main-bg-color);
     box-shadow: inset 0 0 0 2px var(--action-color);
     border-radius: 4px;
+    z-index: 2;
   }
 
   .inRange {
@@ -137,7 +137,7 @@ const styling = css`
     padding: .3rem 1rem;
     pointer-events: none;
     opacity: 0;
-    z-index: 99;
+    z-index: 3;
     position: absolute;
     bottom: -0.5rem;
   }
@@ -154,6 +154,26 @@ const styling = css`
     transition: opacity .5s ease-in-out;
     pointer-events: none;
     opacity: 0 !important;
+  }
+
+  .reset {
+    position: absolute;
+    left: 50%;
+    top: .2rem;
+    border: none;
+    background: none;
+    color: var(--p-color);
+    transform: translateX(-50%);
+    font-size: .7rem;
+  }
+
+  .reset:hover {
+    color: var(--action-color);
+  }
+
+  .selectBtn {
+    padding-top: .2rem;
+    padding-bottom: .2rem;
   }
 `
 
@@ -187,7 +207,11 @@ const setRandom = () => {
   })
 }
 
-export const List = () => {
+/**
+ *
+ * @param {string} storageId
+ */
+export const List = (storageId) => {
   // const enabledCards = mainState.subtitles.filter(item => !item.disabled).length
   const enabledCards = getEnabledSubtitles(mainState.subtitles).length
   const cardsToMerge = getCardsToMerge()
@@ -203,16 +227,16 @@ export const List = () => {
       h2({}, 'Select'),
       button({
         disabled: enabledCards === mainState.subtitles.length,
-        class: 'btn',
+        class: 'btn selectBtn',
         onclick: () => setAll(false)
       }, 'All'),
       button({
-        class: 'btn',
+        class: 'btn selectBtn',
         disabled: enabledCards === 0,
         onclick: () => setAll(true)
       }, 'None'),
       button({
-        class: 'btn',
+        class: 'btn selectBtn',
         onclick: setRandom
       }, 'Random')
     ),
@@ -262,7 +286,7 @@ export const List = () => {
               mainState.mergeEnd = NaN
             }
           }
-        }, isNaN(mainState.mergeStart) ? 'Merge' : 'Stop Merge'),
+        }, isNaN(mainState.mergeStart) ? 'Merge' : 'Stop merge'),
         button({
           class: `btn floating right${cardsToMerge.length > 1 ? '' : ' hidden'}`,
           onclick: () => {
@@ -285,6 +309,16 @@ export const List = () => {
       `Export ${enabledCards} cards`
         )
         : text({}, '⚠️ Select at least 1 card')
-    )
+    ),
+    button({
+      class: 'reset',
+      title: 'Delete stored cards and get new ones',
+      onclick: () => {
+        // Remove the storage and force a reload
+        chrome.tabs.sendMessage(mainState.activeTabId, { type: 'clearSubtitles', storageId }, async () => {
+          location.reload()
+        })
+      }
+    }, 'Delete saved cards')
   )
 }

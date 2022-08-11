@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           // Views of the extension
           mainState.view === 'loading' && Loading(),
-          mainState.view === 'list' && mainState.subtitles && List(storageId),
+          mainState.view === 'list' && List(storageId),
           mainState.view === 'export' && Export,
           mainState.view === 'instructions' && Instructions,
           About
