@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
               // Store subtitles in storage on changes
                 mainState.activeTabId = id
                 chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
-                  const { subtitles } = response
+                  const { subtitles } = response || {}
 
                   // If no subtitles where found, show the instructions
                   if (subtitles) {
