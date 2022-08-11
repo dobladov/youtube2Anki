@@ -21,11 +21,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
-          restore-keys: ${{runner.os}}-node-
       - run: npm ci -D
       - name: Statics
         run: npm run test

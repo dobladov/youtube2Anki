@@ -91,6 +91,13 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
   // Saves the subtitles on the sessionStorage
   if (type === 'storeSubtitles') {
     sessionStorage.setItem(request.storageId, JSON.stringify(request.subtitles))
+    return
+  }
+
+  // Deletes the subtitles on the sessionStorage
+  if (type === 'clearSubtitles') {
+    sessionStorage.removeItem(request.storageId)
+    return
   }
 
   // Obtains the subtitles from the transcript
@@ -123,7 +130,7 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
 
 /**
  * @typedef {object} Message
- * @prop {'getSubtitles'| 'storeSubtitles' | 'download'} type
+ * @prop {'getSubtitles'| 'clearSubtitles' | 'storeSubtitles' | 'download'} type
  * @prop {string} title
  * @prop {string} storageId
  * @prop {Subtitle[]} subtitles
