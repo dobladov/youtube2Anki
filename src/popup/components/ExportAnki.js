@@ -214,8 +214,8 @@ export const ExportAnki = () => div(
     }, 'Anki Connect'),
     text({}, ' to add cards directly to a deck')
   ),
-  mainState.error.message && p({}, mainState.error.message),
-  mainState.error.message && button({
+  mainState.error?.message && p({}, mainState.error.message),
+  mainState.error?.message && button({
     class: 'btn',
     onclick: async () => {
       mainState.error = {}
