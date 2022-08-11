@@ -66,7 +66,7 @@ const initDecks = async (title) => {
   } catch (error) {
     console.warn(error)
     mainState.error = {
-      message: '⚠️ Is not possible to connect with Anki, make sure is running'
+      message: '⚠️ It\'s not possible to connect with Anki, make sure it\'s running'
     }
   }
 }

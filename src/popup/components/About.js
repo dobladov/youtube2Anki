@@ -10,11 +10,11 @@ export const About = () =>
     a({
       target: '_blank',
       class: 'aboutItem',
-      href: 'https://github.com/dobladov/youtube2Anki/discussions/categories/ideas'
-    }, 'Suggestions'),
+      href: 'https://github.com/dobladov/youtube2Anki/issues'
+    }, 'Issues'),
     a({
       target: '_blank',
       class: 'aboutItem',
-      href: 'https://github.com/dobladov/youtube2Anki/issues'
-    }, 'Issues')
+      href: 'https://github.com/dobladov/youtube2Anki/discussions/categories/ideas'
+    }, 'Suggestions')
   ])
