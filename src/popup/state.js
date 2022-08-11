@@ -6,7 +6,7 @@ export const state = createState({
   title: null,
   subtitles: null,
   deckNames: null,
-  error: {},
+  error: null,
   activeTabId: null
 })
 
