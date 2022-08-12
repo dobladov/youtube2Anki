@@ -8,8 +8,8 @@ const style = css`
 `
 
 export const Instructions = () => div({},
-  h2({}, 'Transcript not found'),
-  p({}, 'Please, open the transcript of the video'),
+  h2({}, chrome.i18n.getMessage('instructionsTitle')),
+  p({}, chrome.i18n.getMessage('instructionsDescription')),
   picture(
     {},
     source({

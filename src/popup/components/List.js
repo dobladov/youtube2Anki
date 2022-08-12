@@ -224,21 +224,21 @@ export const List = (storageId) => {
       {
         class: 'controls'
       },
-      h2({}, 'Select'),
+      h2({}, chrome.i18n.getMessage('listSelect')),
       button({
         disabled: enabledCards === mainState.subtitles.length,
         class: 'btn selectBtn',
         onclick: () => setAll(false)
-      }, 'All'),
+      }, chrome.i18n.getMessage('listSelectAll')),
       button({
         class: 'btn selectBtn',
         disabled: enabledCards === 0,
         onclick: () => setAll(true)
-      }, 'None'),
+      }, chrome.i18n.getMessage('listSelectNone')),
       button({
         class: 'btn selectBtn',
         onclick: setRandom
-      }, 'Random')
+      }, chrome.i18n.getMessage('listSelectRandom'))
     ),
     ul({},
       mainState.subtitles.map((item, i) => (
@@ -286,13 +286,13 @@ export const List = (storageId) => {
               mainState.mergeEnd = NaN
             }
           }
-        }, isNaN(mainState.mergeStart) ? 'Merge' : 'Stop merge'),
+        }, isNaN(mainState.mergeStart) ? chrome.i18n.getMessage('listMerge') : chrome.i18n.getMessage('listMergeStop')),
         button({
           class: `btn floating right${cardsToMerge.length > 1 ? '' : ' hidden'}`,
           onclick: () => {
             mergeCards(cardsToMerge)
           }
-        }, `Merge ${cardsToMerge.length} cards`))
+        }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))))
       )),
       styling
     ),
@@ -306,19 +306,18 @@ export const List = (storageId) => {
               mainState.view = 'export'
             }
           },
-      `Export ${enabledCards} cards`
-        )
-        : text({}, '⚠️ Select at least 1 card')
+          chrome.i18n.getMessage('listExportCards', String(enabledCards)))
+        : text({}, chrome.i18n.getMessage('listExportCardsMinimum'))
     ),
     button({
       class: 'reset',
-      title: 'Delete stored cards and get new ones',
+      title: chrome.i18n.getMessage('listDeleteSavedCards'),
       onclick: () => {
         // Remove the storage and force a reload
         chrome.tabs.sendMessage(mainState.activeTabId, { type: 'clearSubtitles', storageId }, async () => {
           location.reload()
         })
       }
-    }, 'Delete saved cards')
+    }, chrome.i18n.getMessage('listDeleteSavedCards'))
   )
 }

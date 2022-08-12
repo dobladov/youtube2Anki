@@ -1,14 +1,101 @@
 {
 	"exportTitle": {
-		"description": "Title while hovering the export icon",
 		"message": "Export to Anki CSV"
 	},
 	"extensionDescription": {
-		"description": "Description of the extension.",
 		"message": "Convert YouTube Transcripts to Anki cards"
 	},
 	"extensionName": {
-		"description": "Name of the extension.",
 		"message": "Youtube2Anki"
+	},
+	"instructionsTitle": {
+		"message": "Transcript not found"
+	},
+	"instructionsDescription": {
+		"message": "Please, open the transcript of the video"
+	},
+	"aboutDonate": {
+		"message": "Donate"
+	},
+	"aboutIssues": {
+		"message": "Issues"
+	},
+	"aboutSuggestions": {
+		"message": "Suggestions"
+	},
+	"listDeleteSavedCards": {
+		"message": "Delete saved cards"
+	},
+	"listDeleteSavedCardsTitle": {
+		"message": "Delete stored cards and get new ones"
+	},
+	"listSelect": {
+		"message": "Select"
+	},
+	"listSelectAll": {
+		"message": "All"
+	},
+	"listSelectNone": {
+		"message": "None"
+	},
+	"listSelectRandom": {
+		"message": "Random"
+	},
+	"listMerge": {
+		"message": "Merge"
+	},
+	"listMergeStop": {
+		"message": "Stop merge"
+	},
+	"listMergeCards": {
+		"message": "Merge $1 cards"
+	},
+	"listExportCards": {
+		"message": "Export $1 cards"
+	},
+	"listExportCardsMinimum": {
+		"message": "⚠️ Select at least 1 card"
+	},
+	"exportEditCards": {
+		"message": "Edit cards"
+	},
+	"exportSendToAnkiTitle": {
+		"message": "Send to Anki"
+	},
+	"exportSendToAnkiDescription1": {
+		"message": "Use "
+	},
+	"exportSendToAnkiDescription2": {
+		"message": " to add cards directly to a deck"
+	},
+	"exportSendToAnkiError": {
+		"message": "⚠️ It's not possible to connect with Anki, make sure it's running"
+	},
+	"exportSendToAnkiReconnect": {
+		"message": "Reconnect"
+	},
+	"exportSendToAnkiDeckName": {
+		"message": "Deck name"
+	},
+	"exportSendToAnkiSend": {
+		"message": "Send"
+	},
+	"exportSendToAnkiErrorCreating": {
+		"message": "⚠️ Error creating the cards"
+	},
+	"exportSendToAnkiNotificationTitle": {
+		"message": "✅ Success"
+	},
+	"exportSendToAnkiNotificationDescription": {
+		"message": "Added $1 new cards"
+	},
+	"exportExportTitle": {
+		"message": "Export"
+	},
+	"exportExportDescription": {
+		"message": "Export the transcript as a CSV file"
+	},
+	"exportExportDownload": {
+		"message": "Download"
 	}
 }
