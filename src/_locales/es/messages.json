@@ -1,14 +1,101 @@
 {
 	"exportTitle": {
-		"description": "Título al pasar sobre el icono",
-		"message": "Exportar a Anki CSV "
+		"message": "Exportar a Anki CSV"
 	},
 	"extensionDescription": {
-		"description": "Descripción de la extensión.",
 		"message": "Convierte transcripciones de YouTube tarjetas de Anki"
 	},
 	"extensionName": {
-		"description": "Nombre de la extensión.",
 		"message": "Youtube2Anki"
+	},
+	"instructionsTitle": {
+		"message": "Transcripción no encontrada"
+	},
+	"instructionsDescription": {
+		"message": "Por favor, abre la transcipción del video"
+	},
+	"aboutDonate": {
+		"message": "Donar"
+	},
+	"aboutIssues": {
+		"message": "Problemas"
+	},
+	"aboutSuggestions": {
+		"message": "Sugerencias"
+	},
+	"listDeleteSavedCards": {
+		"message": "Eliminar tarjetas guardadas"
+	},
+	"listDeleteSavedCardsTitle": {
+		"message": "Borra las tarjetas guardadas y obtiene nuevas"
+	},
+	"listSelect": {
+		"message": "Seleccionar"
+	},
+	"listSelectAll": {
+		"message": "Todas"
+	},
+	"listSelectNone": {
+		"message": "Ninguna"
+	},
+	"listSelectRandom": {
+		"message": "Aleatorias"
+	},
+	"listMerge": {
+		"message": "Combinar"
+	},
+	"listMergeStop": {
+		"message": "Detener combinar"
+	},
+	"listMergeCards": {
+		"message": "Combinar $1 tarjeta"
+	},
+	"listExportCards": {
+		"message": "Exportar $1 tarjeta"
+	},
+	"listExportCardsMinimum": {
+		"message": "⚠️ Selecciona al menos una tarjeta"
+	},
+	"exportEditCards": {
+		"message": "Editar tarjetas"
+	},
+	"exportSendToAnkiTitle": {
+		"message": "Enviar a Anki"
+	},
+	"exportSendToAnkiDescription1": {
+		"message": "Utiliza "
+	},
+	"exportSendToAnkiDescription2": {
+		"message": " para enviar las tarjetas directamente a un mazo"
+	},
+	"exportSendToAnkiError": {
+		"message": "⚠️ La conección con Anki no es posible, asegurese de que esta abierto"
+	},
+	"exportSendToAnkiReconnect": {
+		"message": "Reconnectar"
+	},
+	"exportSendToAnkiDeckName": {
+		"message": "Nombre del mazo"
+	},
+	"exportSendToAnkiSend": {
+		"message": "Enviar"
+	},
+	"exportSendToAnkiErrorCreating": {
+		"message": "⚠️ Error creando las tarjetas"
+	},
+	"exportSendToAnkiNotificationTitle": {
+		"message": "✅ Exito"
+	},
+	"exportSendToAnkiNotificationDescription": {
+		"message": "Añadidas $1 nuevas tarjetas"
+	},
+	"exportExportTitle": {
+		"message": "Exportar"
+	},
+	"exportExportDescription": {
+		"message": "Exporta la transciption a una fichero CSV"
+	},
+	"exportExportDownload": {
+		"message": "Descargar"
 	}
 }

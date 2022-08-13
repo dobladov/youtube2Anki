@@ -27,15 +27,15 @@ export const Export = () => div(
       onclick: () => {
         mainState.view = 'list'
       }
-    }, 'Edit cards'
+    }, chrome.i18n.getMessage('exportEditCards')
   ),
   ExportAnki,
   div(
     {
       class: 'card'
     },
-    h2({}, 'Export'),
-    p({}, 'Export the transcript as a CSV file'),
+    h2({}, chrome.i18n.getMessage('exportExportTitle')),
+    p({}, chrome.i18n.getMessage('exportExportDescription')),
     button({
       class: 'btn',
       onclick: () => {
@@ -47,7 +47,7 @@ export const Export = () => div(
           }
         )
       }
-    }, 'Download')
+    }, chrome.i18n.getMessage('exportExportDownload'))
   ),
   styling
 )
