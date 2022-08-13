@@ -77,9 +77,20 @@ const styling = css`
 
   .controls {
     display: flex;
-    gap: 10px;
+    gap: .4rem;
     align-items: center;
     font-size: 1rem;
+    width: 100%;
+    padding: 0 .5rem;
+  }
+
+  .controls .btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .controls h2 {
+    flex: 1;
+    text-align: center;
   }
 
   ul {
