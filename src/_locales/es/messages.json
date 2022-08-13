@@ -12,7 +12,7 @@
 		"message": "Transcripción no encontrada"
 	},
 	"instructionsDescription": {
-		"message": "Por favor, abre la transción del video"
+		"message": "Por favor, abre la transcipción del video"
 	},
 	"aboutDonate": {
 		"message": "Donar"
@@ -62,7 +62,7 @@
 	"exportSendToAnkiTitle": {
 		"message": "Enviar a Anki"
 	},
-	"exportSendToAnkiDescription": {
+	"exportSendToAnkiDescription1": {
 		"message": "Utiliza "
 	},
 	"exportSendToAnkiDescription2": {
