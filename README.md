@@ -1,6 +1,7 @@
 [![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
 [![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
 [![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE)
+[![YouTube](https://img.shields.io/badge/Tutorials-YouTube-FF0000.svg)](https://www.youtube.com/channel/UC-EX0GeexOudYIprC_WphWg)
 [![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.com/donate/?hosted_button_id=Z4D6849QVUXD2)
 
 # Youtube2Anki ![Logo](https://github.com/dobladov/youtube2Anki/raw/master/src/icons/icon48.png)
@@ -33,6 +34,10 @@ Install the extension for your prefered browser
 ## Send to Anki [AnkiConnect]
 
 Install [AnkiConnect]("https://ankiweb.net/shared/info/2055492159") to add the cards directly to a deck, once the plugin is installed, keep Anki open and press the `Send` button from the extension.
+
+[![How to install Anki Connect](https://img.shields.io/badge/How%20to%20install%20AnkiConnect%20for%20Youtube2Anki-YouTube-FF0000.svg)](https://www.youtube.com/watch?v=N0dBJWcWZLM) 
+
+[![YouTube](https://img.shields.io/badge/How%20to%20use%20Youtube2Anki%20with%20AnkiConnect-YouTube-FF0000.svg)](https://www.youtube.com/watch?v=N0dBJWcWZLM) 
 
 There is no need for the following steps.
 
