@@ -66,7 +66,7 @@ const initDecks = async (title) => {
   } catch (error) {
     console.warn(error)
     mainState.error = {
-      message: '⚠️ It\'s not possible to connect with Anki, make sure it\'s running'
+      message: chrome.i18n.getMessage('exportSendToAnkiError')
     }
   }
 }
@@ -205,14 +205,14 @@ export const ExportAnki = () => div(
       await initDecks(mainState.title)
     }
   },
-  h2({}, 'Send to Anki'),
+  h2({}, chrome.i18n.getMessage('exportSendToAnkiTitle')),
   p({},
-    text({}, 'Use '),
+    text({}, chrome.i18n.getMessage('exportSendToAnkiDescription1')),
     a({
       href: 'https://ankiweb.net/shared/info/2055492159',
       target: '_blank'
     }, 'Anki Connect'),
-    text({}, ' to add cards directly to a deck')
+    text({}, chrome.i18n.getMessage('exportSendToAnkiDescription2'))
   ),
   mainState.error?.message && p({}, mainState.error.message),
   mainState.error?.message && button({
@@ -222,7 +222,7 @@ export const ExportAnki = () => div(
       await initDecks(mainState.title)
     }
   },
-  'Reconnect'
+  chrome.i18n.getMessage('exportSendToAnkiReconnect')
   ),
   mainState.deckNames &&
       form(
@@ -241,21 +241,21 @@ export const ExportAnki = () => div(
               await addNotes(subtitles, deckName)
 
               sendNotification(
-                '✅ Success',
-                `Added ${subtitles.length} new cards`,
+                chrome.i18n.getMessage('exportSendToAnkiNotificationTitle'),
+                chrome.i18n.getMessage('exportSendToAnkiNotificationDescription', String(subtitles.length)),
                 () => window.close()
               )
             } catch (error) {
               console.error(error)
               sendNotification(
-                '⚠️ Error creating the cards',
+                chrome.i18n.getMessage('exportSendToAnkiErrorCreating'),
                 // @ts-expect-error
                 error.message
               )
             }
           }
         },
-        label({ for: 'deckName' }, 'Deck Name'),
+        label({ for: 'deckName' }, chrome.i18n.getMessage('exportSendToAnkiDeckName')),
         input({
           id: 'deckName',
           name: 'deckName',
@@ -274,7 +274,7 @@ export const ExportAnki = () => div(
         button({
           type: 'submit',
           class: 'btn'
-        }, 'Send')
+        }, chrome.i18n.getMessage('exportSendToAnkiSend'))
       )
 )
 

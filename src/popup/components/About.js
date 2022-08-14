@@ -25,15 +25,15 @@ export const About = () =>
       target: '_blank',
       class: 'aboutItem',
       href: 'https://www.paypal.com/donate/?hosted_button_id=Z4D6849QVUXD2'
-    }, 'Donate'),
+    }, chrome.i18n.getMessage('aboutDonate')),
     a({
       target: '_blank',
       class: 'aboutItem',
       href: 'https://github.com/dobladov/youtube2Anki/issues'
-    }, 'Issues'),
+    }, chrome.i18n.getMessage('aboutIssues')),
     a({
       target: '_blank',
       class: 'aboutItem',
       href: 'https://github.com/dobladov/youtube2Anki/discussions/categories/ideas'
-    }, 'Suggestions')
+    }, chrome.i18n.getMessage('aboutSuggestions'))
   ], style)
