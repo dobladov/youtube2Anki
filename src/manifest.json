@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "version": "1.4.0",
   "default_locale": "en",
@@ -16,11 +16,15 @@
     "96": "icons/icon96.png"
   },
 
-  "action": {
+  "browser_action": {
     "browser_style": true,
     "default_icon": "icons/icon48.png",
     "default_title": "__MSG_exportTitle__",
     "default_popup": "popup/popup.html"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
   },
 
   "permissions": [
