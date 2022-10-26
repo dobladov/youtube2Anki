@@ -1,5 +1,6 @@
 [![Firefox](https://img.shields.io/amo/v/youtube2anki.svg?label=Firefox)](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
 [![Chrome](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Chrome)](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
+[![Edge](https://img.shields.io/chrome-web-store/v/boebbbjmbikafafhoelhdjeocceddngi.svg?color=%234A88EE&label=Edge)](https://microsoftedge.microsoft.com/addons/detail/youtube2anki/obnoeiopgjmkbmignpgocigpfeiahkhg)
 [![License](https://img.shields.io/github/license/dobladov/youtube2anki.svg?color=%23B70000)](https://github.com/dobladov/youtube2Anki/blob/master/LICENSE)
 [![YouTube](https://img.shields.io/badge/Tutorials-YouTube-FF0000.svg)](https://www.youtube.com/channel/UC-EX0GeexOudYIprC_WphWg)
 [![PayPal](https://img.shields.io/badge/Support%20this%20project-PayPal-009CDE.svg)](https://www.paypal.com/donate/?hosted_button_id=Z4D6849QVUXD2)
