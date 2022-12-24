@@ -141,10 +141,11 @@ const createModel = async () => {
                       <span>{{prevText}}</span>
                       <br>
 
-                      {{text}}
+                      {{text}}<button onclick="document.getElementById('youtube_player').src = document.getElementById('youtube_player').src">Replay</button>
                       <br>
 
                       <iframe
+                          id="youtube_player"
                           width="560"
                           height="315"
                           src="https://www.youtube.com/embed/{{id}}?start={{startSeconds}}&end={{endSeconds}}&autoplay=1"
