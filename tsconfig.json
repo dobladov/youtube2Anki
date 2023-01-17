@@ -13,4 +13,5 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
   },
+  "exclude": ["web-ext-artifacts"]
 }
