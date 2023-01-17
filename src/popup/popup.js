@@ -10,6 +10,7 @@ import { List } from './components/List.js'
 import { Instructions } from './components/Instructions.js'
 import { Loading } from './components/Loading.js'
 import { getId } from './utils.js'
+import { ListCaptions } from './components/ListCaptions/index.js'
 
 /**
  * @param {chrome.tabs.Tab} tab
@@ -46,23 +47,33 @@ document.addEventListener('DOMContentLoaded', () => {
               if (id) {
               // Store subtitles in storage on changes
                 mainState.activeTabId = id
-                chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
-                  const { subtitles } = response || {}
-
-                  // If no subtitles where found, show the instructions
-                  if (subtitles) {
-                    mainState.subtitles = subtitles
-                    mainState.view = 'list'
+                chrome.tabs.sendMessage(id, { type: 'getCaptionsUrls' }, async (response) => {
+                  const { captionUrls } = response || {}
+                  if (captionUrls) {
+                    mainState.captionUrls = captionUrls
+                    mainState.view = 'listCaptions'
                   } else {
                     mainState.view = 'instructions'
                   }
                 })
+                // chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
+                //   const { subtitles } = response || {}
+
+                //   // If no subtitles where found, show the instructions
+                //   if (subtitles) {
+                //     mainState.subtitles = subtitles
+                //     mainState.view = 'list'
+                //   } else {
+                //     mainState.view = 'instructions'
+                //   }
+                // })
               }
             }
           },
           // Views of the extension
           mainState.view === 'loading' && Loading(),
           mainState.view === 'list' && List(storageId),
+          mainState.view === 'listCaptions' && ListCaptions(),
           mainState.view === 'export' && Export,
           mainState.view === 'instructions' && Instructions,
           About
