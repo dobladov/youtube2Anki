@@ -37,6 +37,27 @@ const download = (filename, text) => {
   document.body.removeChild(link)
 }
 
+const getCaptionsUrls = () => {
+  const [ytInitialPlayerResponseText] = [...document.querySelectorAll('script')]
+    .filter(script => script.innerText.includes('var ytInitialPlayerResponse ='))
+
+  // TODO: if not initialPlayerResponse, display error
+
+  // Get the captionTracks as text
+  const [captionObjectString] = ytInitialPlayerResponseText.innerText.match(/"captionTracks".*,"audioTracks"/gi)
+
+  console.log({ captionObjectString })
+
+  // Clean string and parse the captionTracks
+  const captionTracks = JSON.parse(
+    captionObjectString
+      .replace('"captionTracks":', '')
+      .replace(',"audioTracks"', '')
+  )
+
+  return captionTracks
+}
+
 /**
  * Crawl the subtitles from the YouTube transcript
  *
@@ -100,6 +121,11 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
     return
   }
 
+  if (type === 'getCaptionsUrls') {
+    sendResponse({ captionUrls: getCaptionsUrls() })
+    return
+  }
+
   // Obtains the subtitles from the transcript
   if (type === 'getSubtitles') {
     // Get subtitles form the storage
@@ -130,7 +156,7 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
 
 /**
  * @typedef {object} Message
- * @prop {'getSubtitles'| 'clearSubtitles' | 'storeSubtitles' | 'download'} type
+ * @prop {'getSubtitles'| 'clearSubtitles' | 'storeSubtitles' | 'download'| 'getCaptionsUrls'} type
  * @prop {string} title
  * @prop {string} storageId
  * @prop {Subtitle[]} subtitles
