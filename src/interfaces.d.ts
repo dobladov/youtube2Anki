@@ -11,3 +11,12 @@ export interface Subtitle {
     disabled?: boolean;
     hash: string;
 }
+
+
+export interface CaptionUrl {
+    name: {
+        simpleText: string;
+    };
+    languageCode: string;
+    baseUrl: string;
+}
