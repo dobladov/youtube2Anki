@@ -1,9 +1,9 @@
 export interface Subtitle {
-    time: number;
-    nextTime?: number;
+    time: string;
+    nextTime?: string;
     text: string;
-    prevText: string
-    nextText: string;
+    prevText?: string
+    nextText?: string;
     id: string;
     startSeconds: number;
     endSeconds: number;
@@ -13,7 +13,7 @@ export interface Subtitle {
 }
 
 
-export interface CaptionUrl {
+export interface Caption {
     name: {
         simpleText: string;
     };

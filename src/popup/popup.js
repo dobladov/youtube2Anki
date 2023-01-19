@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
               if (id) {
               // Store subtitles in storage on changes
                 mainState.activeTabId = id
-                chrome.tabs.sendMessage(id, { type: 'getCaptionsUrls' }, async (response) => {
-                  const { captionUrls } = response || {}
-                  if (captionUrls) {
-                    mainState.captionUrls = captionUrls
+                chrome.tabs.sendMessage(id, { type: 'getCaptions' }, async (response) => {
+                  const { captions } = response || {}
+                  if (captions) {
+                    mainState.captions = captions
                     mainState.view = 'listCaptions'
                   } else {
                     mainState.view = 'instructions'
