@@ -74,7 +74,6 @@ const unescape = (s) => {
  * @param {string} youtubeId
  */
 const formatCaptions = (captions, youtubeId) => {
-  console.log({ captions })
   return captions.map((caption, i) => {
     const hash = (Math.random() + 1).toString(36).substring(2)
 
@@ -103,19 +102,19 @@ const formatCaptions = (captions, youtubeId) => {
   })
 }
 
-/** @param {string} youtubeId */
+/**
+ * Represents all captions found
+ * @param {string} youtubeId
+ */
 export const ListCaptions = (youtubeId) => {
   /** @param {Caption} caption  */
   const fetchCaption = (caption) => {
-    console.log('Fetching', caption.name.simpleText)
-
     fetch(caption.baseUrl).then(response => {
       response.text().then(text => {
         // Parse the XMl
         const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(text, 'text/xml')
-        console.log(caption.baseUrl, xmlDoc)
-        const rawCaptions = [...xmlDoc.querySelectorAll('text')].map((t) => {
+        const xmlDocument = parser.parseFromString(text, 'text/xml')
+        const rawCaptions = [...xmlDocument.querySelectorAll('text')].map((t) => {
           const start = t.getAttribute('start')
           const dur = t.getAttribute('dur')
           const text = t.innerHTML
@@ -133,12 +132,9 @@ export const ListCaptions = (youtubeId) => {
 
           return null
         }).filter(caption => caption !== null)
-        console.log(rawCaptions)
         const captions = formatCaptions(rawCaptions, youtubeId)
-        console.log(captions)
         // Set the subtitles
         // Change the view
-        // TODO: store the captions
         mainState.subtitles = captions
         mainState.view = 'list'
       })
