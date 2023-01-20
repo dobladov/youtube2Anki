@@ -4,6 +4,7 @@ import { createState } from './skruv/state.js'
 export const state = createState({
   view: 'loading',
   title: null,
+  captions: null,
   subtitles: null,
   deckNames: null,
   error: null,
@@ -18,6 +19,7 @@ export const state = createState({
  * @prop {number} activeTabId - tab to get and send information
  * @prop {string} title - used for the deck name
  * @prop {Subtitle[]} subtitles
+ * @prop {Caption[]} captions
  * @prop {string[]} deckNames
  * @prop {{message?: string}} error
  * @prop {number} mergeStart
@@ -26,4 +28,5 @@ export const state = createState({
 
 /**
  * @typedef {import('../interfaces').Subtitle} Subtitle
+ * @typedef {import('../interfaces').Caption} Caption
  */

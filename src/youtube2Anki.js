@@ -38,6 +38,32 @@ const download = (filename, text) => {
 }
 
 /**
+ * Obtains the links to the XML captions
+ * @param {string} youTubeId
+ */
+const getCaptions = (youTubeId) => {
+  const [ytInitialPlayerResponseText] = [...document.querySelectorAll('script')]
+    .filter(script => script.innerText.includes('var ytInitialPlayerResponse ='))
+
+  // Get the captionTracks as text
+  const [captionObjectString] = ytInitialPlayerResponseText.innerText.match(/"captionTracks".*,"audioTracks"/gi) || [null]
+
+  if (captionObjectString) {
+    // Clean string and parse the captionTracks
+    const captionTracks = JSON.parse(
+      captionObjectString
+        .replace('"captionTracks":', '')
+        .replace(',"audioTracks"', '')
+    )
+
+    // Prevent using the initial data of another video
+    return captionTracks.filter(caption => caption.baseUrl.includes(youTubeId))
+  }
+
+  return []
+}
+
+/**
  * Crawl the subtitles from the YouTube transcript
  *
  * @param {Element[]} cues
@@ -100,15 +126,24 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
     return
   }
 
-  // Obtains the subtitles from the transcript
-  if (type === 'getSubtitles') {
-    // Get subtitles form the storage
-    const storedSubtitles = JSON.parse(sessionStorage.getItem(request.storageId) || '[]')
-    if (storedSubtitles.length) {
-      sendResponse({ subtitles: storedSubtitles })
-      return
+  if (type === 'getCaptions') {
+    try {
+      sendResponse({ captions: getCaptions(request.youTubeId) })
+    } catch (error) {
+      sendResponse({ error })
     }
 
+    return
+  }
+
+  // Get subtitles form the storage
+  if (type === 'getStoredSubtitles') {
+    const storedSubtitles = JSON.parse(sessionStorage.getItem(request.storageId) || '[]')
+    sendResponse({ storedSubtitles })
+  }
+
+  // Obtains the subtitles from the transcript
+  if (type === 'getSubtitles') {
     const cues = [...document.querySelectorAll('.segment')]
 
     if (cues.length) {
@@ -130,10 +165,11 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
 
 /**
  * @typedef {object} Message
- * @prop {'getSubtitles'| 'clearSubtitles' | 'storeSubtitles' | 'download'} type
+ * @prop {'getSubtitles'| 'clearSubtitles' | 'storeSubtitles' | 'download'| 'getCaptions' | 'getStoredSubtitles'} type
  * @prop {string} title
  * @prop {string} storageId
  * @prop {Subtitle[]} subtitles
+ * @prop {string} youTubeId
  */
 
 /**
