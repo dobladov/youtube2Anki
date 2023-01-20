@@ -121,6 +121,9 @@ export const ListCaptions = (youtubeId) => {
           const text = t.innerHTML
 
           if (start && dur && text) {
+            // Remove empty subtitles
+            if (!text.trim()) return null
+
             return {
               start,
               dur,
