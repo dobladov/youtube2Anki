@@ -44,16 +44,20 @@ const getCaptions = () => {
   // TODO: if not initialPlayerResponse, display error
 
   // Get the captionTracks as text
-  const [captionObjectString] = ytInitialPlayerResponseText.innerText.match(/"captionTracks".*,"audioTracks"/gi) || ['']
+  const [captionObjectString] = ytInitialPlayerResponseText.innerText.match(/"captionTracks".*,"audioTracks"/gi) || [null]
 
-  // Clean string and parse the captionTracks
-  const captionTracks = JSON.parse(
-    captionObjectString
-      .replace('"captionTracks":', '')
-      .replace(',"audioTracks"', '')
-  )
+  if (captionObjectString) {
+    // Clean string and parse the captionTracks
+    const captionTracks = JSON.parse(
+      captionObjectString
+        .replace('"captionTracks":', '')
+        .replace(',"audioTracks"', '')
+    )
 
-  return captionTracks
+    return captionTracks
+  }
+
+  return []
 }
 
 /**
@@ -120,7 +124,12 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
   }
 
   if (type === 'getCaptions') {
-    sendResponse({ captions: getCaptions() })
+    try {
+      sendResponse({ captions: getCaptions() })
+    } catch (error) {
+      sendResponse({ error })
+    }
+
     return
   }
 

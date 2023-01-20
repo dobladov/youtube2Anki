@@ -9,7 +9,7 @@ import { Export } from './components/Export.js'
 import { List } from './components/List.js'
 import { Instructions } from './components/Instructions.js'
 import { Loading } from './components/Loading.js'
-import { getId } from './utils.js'
+import { getId, sendNotification } from './utils.js'
 import { ListCaptions } from './components/ListCaptions/index.js'
 
 /**
@@ -18,10 +18,10 @@ import { ListCaptions } from './components/ListCaptions/index.js'
 const getTabInfo = (tab) => {
   const { id, url, title } = tab
 
-  const youTubeId = getId(String(url))
+  const youTubeId = getId(String(url)) || 'Error getting the youTubeId'
   const storageId = `youTube2AnkiSubtitles-${youTubeId}`
   const formattedTitle = String(title).replace('- YouTube', '').trim() || 'Untitled'
-  return { id, title: formattedTitle, storageId }
+  return { id, title: formattedTitle, storageId, youTubeId }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // eslint-disable-next-line no-unused-vars
     for await (const stateItem of mainState) {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-        const { id, storageId, title } = getTabInfo(tabs[0])
+        const { id, storageId, title, youTubeId } = getTabInfo(tabs[0])
 
         // Store subtitles on changes of state
         const stateSubtitles = [...stateItem?.subtitles?.values() || []].map(v => ({ ...v }))
@@ -48,14 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
               // Store subtitles in storage on changes
                 mainState.activeTabId = id
                 chrome.tabs.sendMessage(id, { type: 'getCaptions' }, async (response) => {
-                  const { captions } = response || {}
-                  if (captions) {
+                  const { captions, error } = response || {}
+                  if (error) {
+                    sendNotification('Error while getting the captions', error.message, () => {
+                      window.close()
+                    })
+                  } else if (!captions.length) {
+                    sendNotification('No captions found', "Couldn't find any subtitles for this video", () => {
+                      // window.close()
+                    })
+                  } else {
                     mainState.captions = captions
                     mainState.view = 'listCaptions'
-                  } else {
-                    mainState.view = 'instructions'
                   }
                 })
+
+                // TODO: Deprecated version to get subtitles from UI. Delete when  not in use anymore
                 // chrome.tabs.sendMessage(id, { type: 'getSubtitles', title, storageId }, async (response) => {
                 //   const { subtitles } = response || {}
 
@@ -73,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Views of the extension
           mainState.view === 'loading' && Loading(),
           mainState.view === 'list' && List(storageId),
-          mainState.view === 'listCaptions' && ListCaptions(),
+          mainState.view === 'listCaptions' && ListCaptions(youTubeId),
           mainState.view === 'export' && Export,
           mainState.view === 'instructions' && Instructions,
           About
