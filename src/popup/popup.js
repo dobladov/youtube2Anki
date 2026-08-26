@@ -8,7 +8,7 @@ import { Export } from './components/Export.js'
 import { List } from './components/List.js'
 import { Instructions } from './components/Instructions.js'
 import { Loading } from './components/Loading.js'
-import { getId } from './utils.js'
+import { getId, toPlainSubtitles } from './utils.js'
 
 /**
  * @param {chrome.tabs.Tab} tab
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { id, storageId, title } = getTabInfo(tabs[0])
 
         // Store subtitles on changes of state
-        const stateSubtitles = [...stateItem?.subtitles?.values() || []].map(v => ({ ...v }))
+        const stateSubtitles = toPlainSubtitles(stateItem?.subtitles)
         if (id && storageId && Boolean(stateSubtitles.length)) {
           chrome.tabs.sendMessage(id, { type: 'storeSubtitles', storageId, subtitles: stateSubtitles })
         }
