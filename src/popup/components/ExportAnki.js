@@ -1,4 +1,6 @@
-import { div, h2, button, p, text, a, datalist, form, input, option, br, label } from '../skruv/html.js'
+import { elementFactory } from '../skruv-0.7.7/skruv.js'
+
+const { div, h2, button, p, a, datalist, form, input, option, br, label } = elementFactory
 
 import { state as mainState } from '../state.js'
 import { sendNotification, getEnabledSubtitles } from '../utils.js'
@@ -201,21 +203,21 @@ const addNotes = async (notes, deckName) => {
 export const ExportAnki = () => div(
   {
     class: 'card',
-    oncreate: async () => {
+    skruvAfterCreate: async () => {
       await initDecks(mainState.title)
     }
   },
   h2({}, chrome.i18n.getMessage('exportSendToAnkiTitle')),
   p({},
-    text({}, chrome.i18n.getMessage('exportSendToAnkiDescription1')),
+    chrome.i18n.getMessage('exportSendToAnkiDescription1'),
     a({
       href: 'https://ankiweb.net/shared/info/2055492159',
       target: '_blank'
     }, 'Anki Connect'),
-    text({}, chrome.i18n.getMessage('exportSendToAnkiDescription2'))
+    chrome.i18n.getMessage('exportSendToAnkiDescription2')
   ),
-  mainState.error?.message && p({}, mainState.error.message),
-  mainState.error?.message && button({
+  !!mainState.error?.message && p({}, mainState.error.message),
+  !!mainState.error?.message && button({
     class: 'btn',
     onclick: async () => {
       mainState.error = {}
@@ -224,7 +226,7 @@ export const ExportAnki = () => div(
   },
   chrome.i18n.getMessage('exportSendToAnkiReconnect')
   ),
-  mainState.deckNames &&
+  !!mainState.deckNames &&
       form(
         {
           onsubmit: async (/** @type {Event} */e) => {

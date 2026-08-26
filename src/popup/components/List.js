@@ -1,7 +1,9 @@
-import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
-
+import { elementFactory } from '../skruv-0.7.7/skruv.js'
 import { state as mainState } from '../state.js'
 import { getEnabledSubtitles } from '../utils.js'
+
+const { div, span, ul, li, button, h2 } = elementFactory
+import { css } from '../skruv-0.7.7/utils/css.js'
 
 /**
  * Gets all the cards that will be merged
@@ -65,7 +67,7 @@ const mergeCards = (cardsToMerge) => {
 
 // @ts-ignore
 const styling = css`
-  .container  {
+  :scope  {
     display: flex;
     flex-direction: column;
     max-height: 500px;
@@ -229,7 +231,7 @@ export const List = (storageId) => {
 
   return div(
     {
-      class: 'container card'
+      class: `card ${styling}`
     },
     div(
       {
@@ -237,13 +239,13 @@ export const List = (storageId) => {
       },
       h2({}, chrome.i18n.getMessage('listSelect')),
       button({
-        disabled: enabledCards === mainState.subtitles.length,
+        disabled: enabledCards === mainState.subtitles.length || undefined,
         class: 'btn selectBtn',
         onclick: () => setAll(false)
       }, chrome.i18n.getMessage('listSelectAll')),
       button({
         class: 'btn selectBtn',
-        disabled: enabledCards === 0,
+        disabled: enabledCards === 0 || undefined,
         onclick: () => setAll(true)
       }, chrome.i18n.getMessage('listSelectNone')),
       button({
@@ -254,11 +256,11 @@ export const List = (storageId) => {
     ul({},
       mainState.subtitles.map((item, i) => (
         li({
-          class: !!item.disabled && 'disabled'
+          class: item.disabled ? 'disabled' : undefined
         },
         button({
-          onmouseover: (/** @type {{target: HTMLElement}}} */event) => {
-            event.target.focus()
+          onmouseover: (event) => {
+            event.currentTarget.focus()
             // Select card for merge end if merge is started
             if (!isNaN(mainState.mergeStart)) {
               mainState.mergeEnd = i
@@ -276,16 +278,16 @@ export const List = (storageId) => {
             toggleItem(i)
           }
         },
-        div({},
+        span({},
           item.time
         ),
-        div({
+        span({
           class: 'text'
         },
         item.text
         ),
-        div({},
-          item.nextTime
+        span({},
+          item.nextTime || ''
         )),
         button({
           class: 'btn floating left',
@@ -301,24 +303,22 @@ export const List = (storageId) => {
         button({
           class: `btn floating right${cardsToMerge.length > 1 ? '' : ' hidden'}`,
           onclick: () => {
-            mergeCards(cardsToMerge)
+            mergeCards(getCardsToMerge())
           }
         }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))))
-      )),
-      styling
+      ))
     ),
     div({},
       enabledCards
         ? button(
           {
-            disabled: enabledCards === 0,
             class: 'btn',
             onclick: () => {
               mainState.view = 'export'
             }
           },
           chrome.i18n.getMessage('listExportCards', String(enabledCards)))
-        : text({}, chrome.i18n.getMessage('listExportCardsMinimum'))
+        : chrome.i18n.getMessage('listExportCardsMinimum')
     ),
     button({
       class: 'reset',

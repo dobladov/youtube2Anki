@@ -1,5 +1,6 @@
-import { body } from './skruv/html.js'
-import { renderNode } from './skruv/vDOM.js'
+import { elementFactory, render as renderNode } from './skruv-0.7.7/skruv.js'
+import { cssTextGenerator } from './skruv-0.7.7/utils/css.js'
+const { body } = elementFactory
 
 import { state as mainState } from './state.js'
 
@@ -22,10 +23,21 @@ const getTabInfo = (tab) => {
   return { id, title: formattedTitle, storageId }
 }
 
+/**
+ * Keeps the styles registered with the skruv css helper in the document
+ */
+const injectStyles = async () => {
+  const styleNode = document.head.appendChild(document.createElement('style'))
+  for await (const cssText of cssTextGenerator()) {
+    styleNode.textContent = cssText
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   (async () => {
-    // @ts-expect-error Skruv initialization
+    injectStyles()
 
+    // @ts-expect-error Skruv initialization
     for await (const stateItem of mainState) {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
         const { id, storageId, title } = getTabInfo(tabs[0])
@@ -38,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderNode(
           body({
-            oncreate: () => {
+            skruvAfterCreate: () => {
               // Connect to the page script and request the subtitles
               mainState.title = title
 
@@ -60,12 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           },
           // Views of the extension
-          mainState.view === 'loading' && Loading(),
-          mainState.view === 'list' && List(storageId),
-          mainState.view === 'export' && Export,
-          mainState.view === 'instructions' && Instructions,
-          About
+          [
+            mainState.view === 'loading' && Loading(),
+            mainState.view === 'list' && List(storageId),
+            mainState.view === 'export' && Export(),
+            mainState.view === 'instructions' && Instructions(),
+            About()
+          ].filter(Boolean)
           ),
+          // @ts-expect-error Skruv ships its own DOM typings
           document.body
         )
       })

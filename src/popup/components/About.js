@@ -1,8 +1,10 @@
-import { div, a, css } from '../skruv/html.js'
+import { elementFactory } from '../skruv-0.7.7/skruv.js'
+import { css } from '../skruv-0.7.7/utils/css.js'
+const { div, a } = elementFactory
 
 // @ts-ignore
 const style = css`
-  .about {
+  :scope {
     text-align: center;
     display: flex;
     justify-content: space-around;
@@ -20,7 +22,7 @@ const style = css`
 `
 
 export const About = () =>
-  div({ class: 'about' }, [
+  div({ class: style }, [
     a({
       target: '_blank',
       class: 'aboutItem',
@@ -36,4 +38,4 @@ export const About = () =>
       class: 'aboutItem',
       href: 'https://github.com/dobladov/youtube2Anki/discussions/categories/ideas'
     }, chrome.i18n.getMessage('aboutSuggestions'))
-  ], style)
+  ])
