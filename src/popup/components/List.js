@@ -1,4 +1,4 @@
-import { div, css, ul, li, button, text, h2 } from '../skruv/html.js'
+import { div, css, ul, li, button, text, h2, span } from '../skruv/html.js'
 
 import { state as mainState } from '../state.js'
 import { getEnabledSubtitles } from '../utils.js'
@@ -36,7 +36,9 @@ const mergeCards = (cardsToMerge) => {
     text: cardsToMerge.map(({ text }) => text).join(' '),
     endSeconds: lastCard.endSeconds,
     nextTime: lastCard.nextTime,
-    nextText: lastCard.nextText
+    nextText: lastCard.nextText,
+    // Keep the original cards so the merge can be undone
+    mergedFrom: cardsToMerge
   }
 
   // Insert the new card in between the selection indexes
@@ -59,6 +61,29 @@ const mergeCards = (cardsToMerge) => {
   }
 
   // Reset selection
+  mainState.mergeStart = NaN
+  mainState.mergeEnd = NaN
+}
+
+/**
+ * Restores the original cards of a merged card
+ * back into the subtitles state
+ *
+ * @param {number} index
+ */
+const unmergeCard = (index) => {
+  const mergedFrom = mainState.subtitles[index].mergedFrom
+  if (!mergedFrom?.length) {
+    return
+  }
+
+  mainState.subtitles = [
+    ...mainState.subtitles.slice(0, index),
+    ...mergedFrom.map(v => ({ ...v })),
+    ...mainState.subtitles.slice(index + 1, mainState.subtitles.length)
+  ]
+
+  // Reset selection since the indexes have shifted
   mainState.mergeStart = NaN
   mainState.mergeEnd = NaN
 }
@@ -102,6 +127,13 @@ const styling = css`
   
   li {
     position: relative;
+  }
+
+  .mergedBadge {
+    color: var(--action-color);
+    font-size: .75rem;
+    font-weight: bold;
+    margin-left: .3rem;
   }
 
   .text {
@@ -163,7 +195,7 @@ const styling = css`
 
   .hidden {
     transition: opacity .5s ease-in-out;
-    pointer-events: none;
+    pointer-events: none !important;
     opacity: 0 !important;
   }
 
@@ -279,6 +311,12 @@ export const List = (storageId) => {
         div({},
           item.time
         ),
+        span({
+          class: 'mergedBadge',
+          title: item.mergedFrom?.length ? chrome.i18n.getMessage('listMergedCard', String(item.mergedFrom.length)) : undefined
+        },
+        item.mergedFrom?.length ? `×${item.mergedFrom.length}` : ''
+        ),
         div({
           class: 'text'
         },
@@ -303,7 +341,13 @@ export const List = (storageId) => {
           onclick: () => {
             mergeCards(cardsToMerge)
           }
-        }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))))
+        }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))),
+        button({
+          class: `btn floating right${item.mergedFrom?.length && cardsToMerge.length <= 1 ? '' : ' hidden'}`,
+          onclick: () => {
+            unmergeCard(i)
+          }
+        }, chrome.i18n.getMessage('listUnmerge')))
       )),
       styling
     ),

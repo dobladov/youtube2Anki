@@ -2,7 +2,7 @@ import { div, css, h2, button, p } from '../skruv/html.js'
 
 import { state as mainState } from '../state.js'
 import { ExportAnki } from './ExportAnki.js'
-import { getEnabledSubtitles } from '../utils.js'
+import { getEnabledSubtitles, toPlainSubtitles } from '../utils.js'
 
 // @ts-ignore
 const styling = css`
@@ -43,7 +43,7 @@ export const Export = () => div(
           {
             type: 'download',
             title: mainState.title,
-            subtitles: getEnabledSubtitles(mainState.subtitles.map(v => ({ ...v })))
+            subtitles: getEnabledSubtitles(toPlainSubtitles(mainState.subtitles))
           }
         )
       }

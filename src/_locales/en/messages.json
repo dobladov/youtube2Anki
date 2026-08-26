@@ -12,7 +12,7 @@
 		"message": "Transcript not found"
 	},
 	"instructionsDescription": {
-		"message": "Please, open the transcript of the video"
+		"message": "Please, open the transcript of the video, sometimes is at the end of the video description"
 	},
 	"aboutDonate": {
 		"message": "Donate"
@@ -24,7 +24,7 @@
 		"message": "Suggestions"
 	},
 	"listDeleteSavedCards": {
-		"message": "Delete saved cards"
+		"message": "Delete modified cards"
 	},
 	"listDeleteSavedCardsTitle": {
 		"message": "Delete stored cards and get new ones"
@@ -49,6 +49,12 @@
 	},
 	"listMergeCards": {
 		"message": "Merge $1 cards"
+	},
+	"listUnmerge": {
+		"message": "Undo merge"
+	},
+	"listMergedCard": {
+		"message": "Merged from $1 cards"
 	},
 	"listExportCards": {
 		"message": "Export $1 cards"

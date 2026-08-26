@@ -12,7 +12,7 @@
 		"message": "Transcripción no encontrada"
 	},
 	"instructionsDescription": {
-		"message": "Por favor, abre la transcipción del video"
+		"message": "Por favor, abre la transcipción del video, algunas veces está al final de la descripción"
 	},
 	"aboutDonate": {
 		"message": "Donar"
@@ -24,7 +24,7 @@
 		"message": "Sugerencias"
 	},
 	"listDeleteSavedCards": {
-		"message": "Eliminar tarjetas guardadas"
+		"message": "Eliminar tarjetas modificadas"
 	},
 	"listDeleteSavedCardsTitle": {
 		"message": "Borra las tarjetas guardadas y obtiene nuevas"
@@ -49,6 +49,12 @@
 	},
 	"listMergeCards": {
 		"message": "Combinar $1 tarjeta"
+	},
+	"listUnmerge": {
+		"message": "Deshacer combinación"
+	},
+	"listMergedCard": {
+		"message": "Combinada de $1 tarjetas"
 	},
 	"listExportCards": {
 		"message": "Exportar $1 tarjeta"

@@ -28,6 +28,18 @@ export const getEnabledSubtitles = (subtitles) => {
 }
 
 /**
+ * Deep clones subtitles from the state into plain objects,
+ * needed for messages since Firefox serializes them with
+ * structured clone, which cannot copy the state proxies
+ *
+ * @param {Subtitle[]} subtitles
+ * @returns {Subtitle[]}
+ */
+export const toPlainSubtitles = (subtitles) => {
+  return JSON.parse(JSON.stringify([...subtitles?.values() || []]))
+}
+
+/**
  * Extracts and returns the id of a YouTube url
  *
  * @param {string} url

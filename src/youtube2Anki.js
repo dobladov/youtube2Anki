@@ -122,7 +122,7 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
   if (type === 'download') {
     /** @type {{title: string, subtitles: Subtitle[]}} */
     const { title, subtitles } = request
-    const cleanSubtitles = subtitles.map(({ disabled, ...rest }) => rest)
+    const cleanSubtitles = subtitles.map(({ disabled, mergedFrom, ...rest }) => rest)
     const csv = toCSV(cleanSubtitles)
     download(`${title}.csv`, csv)
   }
