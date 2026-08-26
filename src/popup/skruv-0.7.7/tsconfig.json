@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "target": "es2018",
+    "declarationMap": false,
+    "moduleResolution": "node",
+    "module": "es2020",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@skruv/jsx"
+  },
+  "include": [
+    "global.d.ts",
+    "utilityTypes.ts",
+    "*",
+    "**/*"
+  ],
+  "exclude": [
+    "examples/jsx/index.min.js",
+    "tests/jsx.test.js",
+    "examples/ssr/deno-ssr.js",
+    "node_modules",
+    // htm uses remote modules
+    "examples/htm/*",
+    "examples/todo/*"
+  ]
+}
