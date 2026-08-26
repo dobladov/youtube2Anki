@@ -38,22 +38,59 @@ const download = (filename, text) => {
 }
 
 /**
+ * The transcript markups YouTube may render, checked in order:
+ * the classic transcript renderer and the modern engagement panel
+ * (transcript-segment-view-model)
+ */
+const MARKUPS = [
+  {
+    cue: '.segment',
+    timestamp: '.segment-timestamp',
+    text: '.segment-text'
+  },
+  {
+    cue: 'transcript-segment-view-model',
+    timestamp: '.ytwTranscriptSegmentViewModelTimestamp',
+    text: '.ytAttributedStringHost'
+  }
+]
+
+/**
+ * Returns the transcript cues and the markup they were found with
+ */
+const getCues = () => {
+  for (const markup of MARKUPS) {
+    const cues = [...document.querySelectorAll(markup.cue)]
+      .filter(cue => cue.querySelector(markup.timestamp) && cue.querySelector(markup.text))
+    if (cues.length) {
+      return { cues, markup }
+    }
+  }
+  return { cues: [], markup: null }
+}
+
+/**
  * Crawl the subtitles from the YouTube transcript
  *
  * @param {Element[]} cues
+ * @param {{cue: string, timestamp: string, text: string}} markup
  * @param {string} title
  */
-const getSubtitles = (cues, title) => {
+const getSubtitles = (cues, markup, title) => {
   const id = getId(window.location.href)
 
+  const getCueTime = (/** @type {Element=} */cue) =>
+    /** @type {HTMLElement | null} */(cue?.querySelector(markup.timestamp))?.innerText.trim() || null
+  const getCueText = (/** @type {Element=} */cue) =>
+    /** @type {HTMLElement | null} */(cue?.querySelector(markup.text))?.innerText.trim() || null
+
   return cues.map((cue, i) => {
-    const time = /** @type {HTMLElement} */(cue.querySelector('.segment-timestamp')).innerText
-    const nextTime = (cues[i + 1] &&
-    /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-timestamp')).innerText
-    ) || null
-    const text = /** @type {HTMLElement} */(cue.querySelector('.segment-text')).innerText
-    const prevText = (cues[i - 1] && /** @type {HTMLElement} */(cues[i - 1].querySelector('.segment-text')).innerText) || null
-    const nextText = (cues[i + 1] && /** @type {HTMLElement} */(cues[i + 1].querySelector('.segment-text')).innerText) || null
+    // Cues are filtered in getCues, so the current one always has both parts
+    const time = /** @type {string} */(getCueTime(cue))
+    const nextTime = getCueTime(cues[i + 1])
+    const text = /** @type {string} */(getCueText(cue))
+    const prevText = getCueText(cues[i - 1])
+    const nextText = getCueText(cues[i + 1])
     const endSeconds = nextTime ? toSeconds(nextTime) + 1 : null
     const hash = (Math.random() + 1).toString(36).substring(2)
 
@@ -109,10 +146,10 @@ chrome.runtime.onMessage.addListener((/** @type {Message} */request, _, sendResp
       return
     }
 
-    const cues = [...document.querySelectorAll('.segment')]
+    const { cues, markup } = getCues()
 
-    if (cues.length) {
-      const subtitles = getSubtitles(cues, request.title)
+    if (cues.length && markup) {
+      const subtitles = getSubtitles(cues, markup, request.title)
       sendResponse({ subtitles })
     } else {
       sendResponse({ subtitles: null })
