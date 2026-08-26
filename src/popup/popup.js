@@ -1,4 +1,3 @@
-
 import { body } from './skruv/html.js'
 import { renderNode } from './skruv/vDOM.js'
 
@@ -26,7 +25,7 @@ const getTabInfo = (tab) => {
 document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     // @ts-expect-error Skruv initialization
-    // eslint-disable-next-line no-unused-vars
+
     for await (const stateItem of mainState) {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
         const { id, storageId, title } = getTabInfo(tabs[0])
