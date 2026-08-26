@@ -1,12 +1,14 @@
-import { div, css, h2, button, p } from '../skruv/html.js'
-
+import { elementFactory } from '../skruv-0.7.7/skruv.js'
 import { state as mainState } from '../state.js'
 import { ExportAnki } from './ExportAnki.js'
 import { getEnabledSubtitles, toPlainSubtitles } from '../utils.js'
+import { css } from '../skruv-0.7.7/utils/css.js'
+
+const { div, h2, button, p } = elementFactory
 
 // @ts-ignore
 const styling = css`
-  .container {
+  :scope {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -19,7 +21,7 @@ const styling = css`
 
 export const Export = () => div(
   {
-    class: 'container'
+    class: styling
   },
   button(
     {
@@ -29,7 +31,7 @@ export const Export = () => div(
       }
     }, chrome.i18n.getMessage('exportEditCards')
   ),
-  ExportAnki,
+  ExportAnki(),
   div(
     {
       class: 'card'
@@ -48,6 +50,5 @@ export const Export = () => div(
         )
       }
     }, chrome.i18n.getMessage('exportExportDownload'))
-  ),
-  styling
+  )
 )

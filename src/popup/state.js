@@ -1,13 +1,13 @@
-import { createState } from './skruv/state.js'
+import { createState } from './skruv-0.7.7/utils/state.js'
 
 /** @type {State} */
 export const state = createState({
   view: 'loading',
-  title: null,
-  subtitles: null,
+  title: '',
+  subtitles: [],
   deckNames: null,
   error: null,
-  activeTabId: null,
+  activeTabId: NaN,
   mergeStart: NaN,
   mergeEnd: NaN
 })
@@ -18,8 +18,8 @@ export const state = createState({
  * @prop {number} activeTabId - tab to get and send information
  * @prop {string} title - used for the deck name
  * @prop {Subtitle[]} subtitles
- * @prop {string[]} deckNames
- * @prop {{message?: string}} error
+ * @prop {string[] | null} deckNames
+ * @prop {{message?: string} | null} error
  * @prop {number} mergeStart
  * @prop {number} mergeEnd
  */
