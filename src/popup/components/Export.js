@@ -1,7 +1,7 @@
 import { elementFactory } from '../skruv-0.7.7/skruv.js'
 import { state as mainState } from '../state.js'
 import { ExportAnki } from './ExportAnki.js'
-import { getEnabledSubtitles } from '../utils.js'
+import { getEnabledSubtitles, toPlainSubtitles } from '../utils.js'
 import { css } from '../skruv-0.7.7/utils/css.js'
 
 const { div, h2, button, p } = elementFactory
@@ -45,7 +45,7 @@ export const Export = () => div(
           {
             type: 'download',
             title: mainState.title,
-            subtitles: getEnabledSubtitles(mainState.subtitles.map(v => ({ ...v })))
+            subtitles: getEnabledSubtitles(toPlainSubtitles(mainState.subtitles))
           }
         )
       }
