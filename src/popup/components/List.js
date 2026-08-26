@@ -313,7 +313,13 @@ export const List = (storageId) => {
         span({},
           item.time
         ),
-        div({
+        span({
+          class: 'mergedBadge',
+          title: item.mergedFrom?.length ? chrome.i18n.getMessage('listMergedCard', String(item.mergedFrom.length)) : undefined
+        },
+        item.mergedFrom?.length ? `×${item.mergedFrom.length}` : ''
+        ),
+        span({
           class: 'text'
         },
         item.text
@@ -337,9 +343,14 @@ export const List = (storageId) => {
           onclick: () => {
             mergeCards(getCardsToMerge())
           }
-        }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))))
-      )),
-      styling
+        }, chrome.i18n.getMessage('listMergeCards', String(cardsToMerge.length))),
+        button({
+          class: `btn floating right${item.mergedFrom?.length && cardsToMerge.length <= 1 ? '' : ' hidden'}`,
+          onclick: () => {
+            unmergeCard(i)
+          }
+        }, chrome.i18n.getMessage('listUnmerge')))
+      ))
     ),
     div({},
       enabledCards
