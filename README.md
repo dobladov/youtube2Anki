@@ -27,10 +27,11 @@ This extension allows to download the transcript of a YouTube video to a csv tha
 
 ## Install
 
-Install the extension for your prefered browser
+Install the extension for your preferred browser
 
 + [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube2anki/)
 + [Chrome](https://chrome.google.com/webstore/detail/youtube2anki/boebbbjmbikafafhoelhdjeocceddngi)
++ [Edge](https://microsoftedge.microsoft.com/addons/detail/youtube2anki/obnoeiopgjmkbmignpgocigpfeiahkhg)
 
 ## Send to Anki [AnkiConnect]
 
