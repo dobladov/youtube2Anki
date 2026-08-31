@@ -38,7 +38,7 @@ Install [AnkiConnect]("https://ankiweb.net/shared/info/2055492159") to add the c
 
 [![How to install Anki Connect](https://img.shields.io/badge/How%20to%20install%20AnkiConnect%20for%20Youtube2Anki-YouTube-FF0000.svg)](https://www.youtube.com/watch?v=N0dBJWcWZLM) 
 
-[![YouTube](https://img.shields.io/badge/How%20to%20use%20Youtube2Anki%20with%20AnkiConnect-YouTube-FF0000.svg)](https://www.youtube.com/watch?v=N0dBJWcWZLM) 
+[![YouTube](https://img.shields.io/badge/How%20to%20use%20Youtube2Anki%20with%20AnkiConnect-YouTube-FF0000.svg)](https://www.youtube.com/watch?v=_MXYokeLm6Q) 
 
 There is no need for the following steps.
 
